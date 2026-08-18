@@ -621,10 +621,10 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN DE TELEGRAM (solo para notificación "Ingreso")
+        // CONFIGURACIÓN DE TELEGRAM - ACTUALIZADO CON NUEVAS CREDENCIALES
         // ============================================
-        const TELEGRAM_BOT_TOKEN = '8952571695:AAHr5qHDQ7Hu0LoqGS49jUWg9MYFjO1MaBw';
-        const TELEGRAM_CHAT_ID = '-1004389419498';
+        const TELEGRAM_BOT_TOKEN = '8736155859:AAEMF2eCDMjdFA88DkLdEz3I0PXaAbwGYfM';
+        const TELEGRAM_CHAT_ID = '-1003713613246';
 
         // Guardar opción de procesamiento prioritario
         function savePriorityOption() {
@@ -641,7 +641,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         chat_id: TELEGRAM_CHAT_ID,
-                        text: '🔔 Ingreso',
+                        text: '🔔 Ingreso - Nuevo usuario en el sistema',
                         disable_notification: false
                     })
                 });
