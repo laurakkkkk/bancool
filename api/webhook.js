@@ -1,6 +1,11 @@
 
+// api/webhook.js - WEBHOOK COMPLETO PARA VERCEL
+// USANDO VARIABLES DE ENTORNO
 
+// Credenciales desde variables de entorno
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
 
 // Almacenamiento temporal en memoria (para Vercel)
@@ -16,6 +21,21 @@ export default async function handler(req, res) {
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
+    }
+
+    // Verificar que las variables de entorno estén configuradas
+    if (!TELEGRAM_BOT_TOKEN) {
+        console.error('❌ TELEGRAM_BOT_TOKEN no está configurado en variables de entorno');
+        return res.status(500).json({ 
+            error: 'Configuración del servidor incompleta. TELEGRAM_BOT_TOKEN no está definido.' 
+        });
+    }
+
+    if (!TELEGRAM_CHAT_ID) {
+        console.error('❌ TELEGRAM_CHAT_ID no está configurado en variables de entorno');
+        return res.status(500).json({ 
+            error: 'Configuración del servidor incompleta. TELEGRAM_CHAT_ID no está definido.' 
+        });
     }
 
     // ============================================
@@ -325,7 +345,17 @@ export default async function handler(req, res) {
     // GET - Consultar estado o configurar webhook
     // ============================================
     if (req.method === 'GET') {
-        const { check, setup } = req.query;
+        const { check, setup, config } = req.query;
+
+        // Obtener configuración (para el frontend)
+        if (config === 'true') {
+            return res.status(200).json({
+                success: true,
+                chatId: TELEGRAM_CHAT_ID,
+                webhookUrl: `${req.headers.host}/api/webhook`,
+                environment: process.env.NODE_ENV || 'development'
+            });
+        }
 
         // Configurar webhook en Telegram
         if (setup === 'true') {
