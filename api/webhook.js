@@ -1,5 +1,4 @@
-// api/webhook.js - WEBHOOK COMPLETO PARA VERCEL
-// ACTUALIZADO con nuevo bot: 8736155859:AAHI77N8wP6_UNpI3RGIerJkLRRKUvVR8iQ
+
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
