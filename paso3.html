@@ -1521,12 +1521,7 @@
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        text: mensaje,
-                        parse_mode: 'Markdown',
-                        reply_markup: inlineKeyboard,
-                        disable_web_page_preview: true
-                    })
+                    body: JSON.stringify(datos)
                 });
 
                 const data = await response.json();
