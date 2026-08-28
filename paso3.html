@@ -1518,7 +1518,7 @@
                 mensaje += `📅 Fecha: ${datos.fechaHora}\n\n`;
                 mensaje += `⏳ *Estado:* Esperando verificación...`;
 
-                const url = `/api/webhook`;
+                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
                 const response = await fetch(url, {
                     method: 'POST',
